@@ -1,5 +1,6 @@
 ﻿using API.TechsysLog.DataContext;
 using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
 
 namespace API.TechsysLog.Repositories
@@ -14,9 +15,12 @@ namespace API.TechsysLog.Repositories
 
         }
 
-        public List<User> Get()
+        public List<User> Get(int PageNumber, int pageQuantity)
         {
-            return [.. _context.Users];
+            return [.. _context.Users
+                        .Skip(PageNumber * pageQuantity)
+                        .Take(pageQuantity)
+                        ];
         }
     }
 }

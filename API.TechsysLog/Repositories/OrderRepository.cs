@@ -1,5 +1,6 @@
 ﻿using API.TechsysLog.DataContext;
 using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
 
 namespace API.TechsysLog.Repositories
@@ -16,7 +17,10 @@ namespace API.TechsysLog.Repositories
 
         public List<Order> Get(int PageNumber, int pageQuantity)
         {
-            return [.. _context.Orders.Skip(PageNumber * pageQuantity).Take(pageQuantity)];
+            return [.. _context.Orders
+                        .Skip(PageNumber * pageQuantity)
+                        .Take(pageQuantity)
+                        ];
         }
 
         public List<Order> Get()
@@ -27,7 +31,10 @@ namespace API.TechsysLog.Repositories
         public List<Order> GetUserOrders(User user, int PageNumber, int pageQuantity)
         {
             //!AINDA NÃO BUSQUEI PELO USUARIO
-            return [.. _context.Orders.Skip(PageNumber * pageQuantity).Take(pageQuantity)];
+            return [.. _context.Orders
+                        .Skip(PageNumber * pageQuantity)
+                        .Take(pageQuantity)
+                        ];
         }
     }
 }

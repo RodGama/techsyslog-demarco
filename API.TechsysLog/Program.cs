@@ -1,4 +1,5 @@
 using API.TechsysLog;
+using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories;
 using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services;
@@ -27,7 +28,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
-
+builder.Services.AddAutoMapper(typeof(Mapping));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(options =>
 {

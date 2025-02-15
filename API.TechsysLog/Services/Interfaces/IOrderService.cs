@@ -1,4 +1,5 @@
 ﻿using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
 using API.TechsysLog.ViewModel;
 
 namespace API.TechsysLog.Services.Interfaces

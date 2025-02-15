@@ -1,4 +1,5 @@
 ﻿using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
 
 namespace API.TechsysLog.Repositories.Interfaces
 {

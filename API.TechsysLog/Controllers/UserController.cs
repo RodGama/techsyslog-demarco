@@ -1,6 +1,7 @@
 ﻿using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.ViewModel;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,12 @@ namespace API.TechsysLog.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        private readonly IMapper _mapper;
+        public UserController(IUserService userService, ILogger<UserController> logger,IMapper mapper)
         {
             _userService = userService;
             _logger = logger;
+            _mapper = mapper;
         }
 
 

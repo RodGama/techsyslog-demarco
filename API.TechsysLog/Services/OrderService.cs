@@ -1,4 +1,5 @@
 ﻿using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.Validations;

@@ -1,6 +1,7 @@
 ﻿using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.ViewModel;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,12 @@ namespace API.TechsysLog.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderController> _logger;
-        public OrderController(IOrderService orderService, ILogger<OrderController> logger)
+        private readonly IMapper _mapper;
+        public OrderController(IOrderService orderService, ILogger<OrderController> logger, IMapper mapper)
         {
             _orderService = orderService;
             _logger = logger;
+            _mapper = mapper;
         }
 
 

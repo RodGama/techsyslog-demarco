@@ -1,4 +1,6 @@
-﻿namespace API.TechsysLog.DTOs
+﻿using API.TechsysLog.Domain;
+
+namespace API.TechsysLog.DTOs
 {
     public class UserDTO
     {
@@ -8,10 +10,5 @@
 
     }
 
-    public enum Role
-    {
-        Employee,
-        Seller,
-        Buyer
-    }
+
 }
