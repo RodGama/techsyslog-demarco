@@ -1,0 +1,6 @@
+@API.TechsysLog_HostAddress = http://localhost:5277
+
+GET {{API.TechsysLog_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
