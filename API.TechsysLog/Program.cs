@@ -39,6 +39,7 @@ builder.Services.AddOpenApi(options =>
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IDeliveryRepository, DeliveryRepository>();
 
 builder.Services.AddSingleton<IValidator<UserViewModel>, UserValidation>();
 builder.Services.AddSingleton<IValidator<OrderViewModel>, OrderValidation>();

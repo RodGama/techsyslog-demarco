@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper.Configuration.Annotations;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Domain
 {
     [Table("order")]
+    [Index(nameof(OrderNumber))]
+
     public class Order
     {
         public Order(string description, long orderNumber, float price, string address, int cEP)
@@ -23,7 +27,6 @@ namespace API.TechsysLog.Domain
         public float Price { get; private set; }
         public string Address  { get; private set; }
         public int CEP { get; private set; }
-
         
     }
 }

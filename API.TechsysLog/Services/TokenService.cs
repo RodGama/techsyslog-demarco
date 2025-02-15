@@ -1,4 +1,5 @@
 ﻿using API.TechsysLog.Domain;
+using API.TechsysLog.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
@@ -32,5 +33,28 @@ namespace API.TechsysLog.Services
                 token = tokenString
             };
         }
+
+        public static TokenResult DecryptToken(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            if (jsonToken != null)
+            {
+                Int32.TryParse(jsonToken.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value, out int userId);
+                return new TokenResult
+                {
+                    UserId = userId,
+                    IsValid = true
+                };
+            }
+            return new TokenResult
+            {
+                UserId = 0,
+                IsValid = false
+            };
+        }
     }
 }
+

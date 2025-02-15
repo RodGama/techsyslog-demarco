@@ -1,4 +1,4 @@
-﻿namespace API.TechsysLog.ViewModel
+﻿namespace API.TechsysLog.Models
 {
     public class Result
     {

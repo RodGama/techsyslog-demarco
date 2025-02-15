@@ -1,4 +1,5 @@
-﻿using API.TechsysLog.Repositories.Interfaces;
+﻿using API.TechsysLog.Models;
+using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.ViewModel;

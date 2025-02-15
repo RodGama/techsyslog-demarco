@@ -1,6 +1,6 @@
 ﻿using API.TechsysLog.Domain;
 
-namespace API.TechsysLog.ViewModel
+namespace API.TechsysLog.Models
 {
     public class AuthResult
     {

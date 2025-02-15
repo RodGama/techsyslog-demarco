@@ -1,5 +1,6 @@
 ﻿using API.TechsysLog.Domain;
 using API.TechsysLog.DTOs;
+using API.TechsysLog.Models;
 using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.Validations;
@@ -20,17 +21,23 @@ namespace API.TechsysLog.Services
             _orderRepository = orderRepository;
             _orderValidation = orderValidation;
         }
-        public void Add(OrderViewModel orderViewModel)
+        public void Add(OrderViewModel orderViewModel, int UserId)
         {
-            var address = orderViewModel.Address + " " + orderViewModel.AddressNumber + " " + orderViewModel.Neighborhood + " " + orderViewModel.City + " " + orderViewModel.State;
+            var address = orderViewModel.CEP + " " + orderViewModel.Street + " " + orderViewModel.AddressNumber + " " + orderViewModel.Neighborhood + " " + orderViewModel.City + " " + orderViewModel.State;
+
             var order = new Order(orderViewModel.Description, orderViewModel.OrderNumber, orderViewModel.Price, address, orderViewModel.CEP);
 
-            _orderRepository.Add(order);
+            _orderRepository.Add(order, UserId);
         }
 
         public List<Order> Get(int PageNumber, int pageQuantity)
         {
             return _orderRepository.Get(PageNumber, pageQuantity);
+        }
+
+        public List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId)
+        {
+            return _orderRepository.GetByUserId(PageNumber, pageQuantity, UserId);
         }
 
         public async Task<bool> OrderCreationIsValid(OrderViewModel orderViewModel, Result result)

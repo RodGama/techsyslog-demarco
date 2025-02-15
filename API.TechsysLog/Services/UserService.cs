@@ -1,4 +1,5 @@
 ﻿using API.TechsysLog.Domain;
+using API.TechsysLog.Models;
 using API.TechsysLog.Repositories;
 using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
@@ -68,6 +69,7 @@ namespace API.TechsysLog.Services
 
                 return false;
             }
+            result.Success = true;
             return true;
         }
     }
