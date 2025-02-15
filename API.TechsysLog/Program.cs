@@ -11,12 +11,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
+using System.Net.Mime;
 using System.Reflection.PortableExecutable;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,8 +71,41 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+builder.Services.AddHealthChecks().AddSqlServer(
+            connectionString: "Server=localhost,1433;" +
+                "Database=techsyslog;" +
+                "User Id=sa;" +
+                "Password=Abc1023123;" +
+                "TrustServerCertificate=True",
+            healthQuery: "SELECT 1 ",
+            name: "sql",
+            failureStatus: HealthStatus.Unhealthy,
+            tags: new string[] { "db" })
+            .AddProcessAllocatedMemoryHealthCheck(
+                512,
+                name: "Memoria",
+                failureStatus: HealthStatus.Unhealthy,
+                tags: new string[] { "Memoria" });
 
 var app = builder.Build();
+
+app.UseHealthChecks("/status",
+    new HealthCheckOptions()
+    {
+        ResponseWriter = async (context, report) =>
+        {
+            var result = JsonSerializer.Serialize(
+                    new
+                    {
+                        currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                        statusApplication = report.Status.ToString(),
+                        monitors = report.Entries.Select(e => new { key = e.Key, value = Enum.GetName(typeof(HealthStatus), e.Value.Status) })
+                    });
+
+            context.Response.ContentType = MediaTypeNames.Application.Json;
+            await context.Response.WriteAsync(result);
+        }
+    });
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
