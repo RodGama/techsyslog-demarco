@@ -6,7 +6,7 @@ namespace API.TechsysLog.Services.Interfaces
 {
     public interface IOrderService
     {
-        bool OrderCreationIsValid(OrderViewModel orderViewModel, Result result);
+        Task<bool> OrderCreationIsValid(OrderViewModel orderViewModel, Result result);
         void Add(OrderViewModel orderViewModel);
         List<Order> Get(int PageNumber, int pageQuantity);
     }

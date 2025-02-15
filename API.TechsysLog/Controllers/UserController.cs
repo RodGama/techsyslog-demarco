@@ -25,7 +25,6 @@ namespace API.TechsysLog.Controllers
         }
 
 
-        [Authorize]
         [HttpPut("Add")]
         [EndpointName("AddUser")]
         [Produces("application/json")]

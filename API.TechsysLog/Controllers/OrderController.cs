@@ -29,7 +29,7 @@ namespace API.TechsysLog.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
-        public IActionResult Add(OrderViewModel orderViewModel)
+        public async Task<IActionResult> Add(OrderViewModel orderViewModel)
         {
             _logger.Log(LogLevel.Trace,"Start");
             var result = new Result();
@@ -37,7 +37,7 @@ namespace API.TechsysLog.Controllers
             result.Success = false;
             result.Errors = new List<string>();
 
-            if (_orderService.OrderCreationIsValid(orderViewModel, result))
+            if (await _orderService.OrderCreationIsValid(orderViewModel, result))
             {
                 try
                 {
@@ -46,13 +46,11 @@ namespace API.TechsysLog.Controllers
                 }
                 catch (Exception ex) 
                 {
-                    return BadRequest("Não foi possível realizar o cadastro");
+                     return BadRequest("Não foi possível realizar o cadastro");
                 }
             }
             else
-            {
                 return BadRequest(result);
-            }
         }
 
         [Authorize]

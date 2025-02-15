@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.TechsysLog.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250215142524_MyMigration")]
-    partial class MyMigration
+    [Migration("20250215185014_migr")]
+    partial class migr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,9 @@ namespace API.TechsysLog.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CEP")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()

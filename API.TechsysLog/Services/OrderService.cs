@@ -22,7 +22,8 @@ namespace API.TechsysLog.Services
         }
         public void Add(OrderViewModel orderViewModel)
         {
-            var order = new Order(orderViewModel.Description, orderViewModel.OrderNumber, orderViewModel.Price, orderViewModel.Address);
+            var address = orderViewModel.Address + " " + orderViewModel.AddressNumber + " " + orderViewModel.Neighborhood + " " + orderViewModel.City + " " + orderViewModel.State;
+            var order = new Order(orderViewModel.Description, orderViewModel.OrderNumber, orderViewModel.Price, address, orderViewModel.CEP);
 
             _orderRepository.Add(order);
         }
@@ -32,9 +33,9 @@ namespace API.TechsysLog.Services
             return _orderRepository.Get(PageNumber, pageQuantity);
         }
 
-        public bool OrderCreationIsValid(OrderViewModel orderViewModel, Result result)
+        public async Task<bool> OrderCreationIsValid(OrderViewModel orderViewModel, Result result)
         {
-            var resultValidation = _orderValidation.Validate(orderViewModel);
+            var resultValidation = await _orderValidation.ValidateAsync(orderViewModel);
             if (!resultValidation.IsValid)
             {
                 foreach (var error in resultValidation.Errors)
