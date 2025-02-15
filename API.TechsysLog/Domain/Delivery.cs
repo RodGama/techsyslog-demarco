@@ -9,6 +9,7 @@ namespace API.TechsysLog.Domain
 
     public class Delivery
     {
+        public Delivery() { }
         public Delivery(long orderNumber)
         {
             OrderNumber = orderNumber;
@@ -16,7 +17,7 @@ namespace API.TechsysLog.Domain
         [Key]
         public int Id { get; private set; }
         [ForeignKey(nameof(Order.OrderNumber))]
-        public long OrderNumber { get;private set; }
+        public long OrderNumber { get; set; }
         public DateTime? DeliveryDate { get; set; }
     }
 }

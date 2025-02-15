@@ -49,6 +49,7 @@ builder.Services.AddSingleton<IValidator<OrderViewModel>, OrderValidation>();
 
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();
+builder.Services.AddSingleton<IDeliveryService, DeliveryService>();
 
 
 

@@ -40,5 +40,6 @@ namespace API.TechsysLog.Repositories
 
 
         }
+
     }
 }

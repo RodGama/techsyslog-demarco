@@ -5,7 +5,8 @@ namespace API.TechsysLog.Repositories.Interfaces
 {
     public interface IDeliveryRepository
     {
-        void Add(Delivery delivery);
-        Delivery Get(int id);
+        void Add(Delivery Delivery);
+        Delivery Get(long OrderId);
+        void Update(Delivery delivery);
     }
 }

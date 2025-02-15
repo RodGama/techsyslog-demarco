@@ -19,10 +19,11 @@ namespace API.TechsysLog.Controllers
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderController> _logger;
         private readonly IMapper _mapper;
-        
-        public OrderController(IOrderService orderService, ILogger<OrderController> logger, IMapper mapper)
+        private readonly IDeliveryService _deliveryService;
+        public OrderController(IOrderService orderService, IDeliveryService deliveryService, ILogger<OrderController> logger, IMapper mapper)
         {
             _orderService = orderService;
+            _deliveryService = deliveryService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -159,5 +160,30 @@ namespace API.TechsysLog.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("DeliverOrder")]
+        [EndpointName("DeliverOrder")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult DeliverOrder(long OrderId)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "DeliverOrder";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            try
+            {
+                _deliveryService.OrderDelivered(OrderId);
+                result.Success = true;
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }

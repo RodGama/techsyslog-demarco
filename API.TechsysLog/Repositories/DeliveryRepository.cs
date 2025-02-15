@@ -15,9 +15,15 @@ namespace API.TechsysLog.Repositories
             _context.SaveChanges();
         }
 
-        public Delivery Get(int id)
+        public Delivery Get(long OrderId)
         {
-            return _context.Deliveries.Where(x => x.Id == id).FirstOrDefault();
+            return _context.Deliveries.Where(x => x.OrderNumber == OrderId).FirstOrDefault();
+        }
+
+        public void Update(Delivery delivery)
+        {
+            _context.Deliveries.Update(delivery);
+            _context.SaveChanges();
         }
     }
 }
