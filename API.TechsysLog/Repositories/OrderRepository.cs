@@ -25,6 +25,11 @@ namespace API.TechsysLog.Repositories
                         ];
         }
 
+        public Order GetById(long orderId)
+        {
+            return _context.Orders.Where(x=>x.OrderNumber==orderId).FirstOrDefault();
+        }
+
         public List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId)
         {
             //!AINDA NÃO BUSQUEI PELO USUARIO

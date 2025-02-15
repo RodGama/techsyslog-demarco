@@ -85,7 +85,7 @@ namespace API.TechsysLog.Controllers
             {
                 var orders = _orderService.Get(PageNumber, PageQuantity);
 
-                var ordersDTOs = _mapper.Map<OrderDTO>(orders);
+                List<OrderDTO> ordersDTOs = _mapper.Map<List<Order>, List<OrderDTO>>(orders);
 
                 return Ok(ordersDTOs);
             }
@@ -102,7 +102,7 @@ namespace API.TechsysLog.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
-        public IActionResult GetById(int PageNumber, int PageQuantity, long OrderId)
+        public IActionResult GetById(long OrderId)
         {
             _logger.Log(LogLevel.Trace, "Start");
             var result = new Result();
@@ -112,7 +112,7 @@ namespace API.TechsysLog.Controllers
 
             try
             {
-                var orders = _orderService.Get(PageNumber, PageQuantity);
+                var orders = _orderService.GetById(OrderId);
 
                 var ordersDTOs = _mapper.Map<OrderDTO>(orders);
 

@@ -35,6 +35,11 @@ namespace API.TechsysLog.Services
             return _orderRepository.Get(PageNumber, pageQuantity);
         }
 
+        public Order GetById(long orderId)
+        {
+            return _orderRepository.GetById(orderId);
+        }
+
         public List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId)
         {
             return _orderRepository.GetByUserId(PageNumber, pageQuantity, UserId);

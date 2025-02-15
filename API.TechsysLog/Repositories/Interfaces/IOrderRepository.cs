@@ -7,6 +7,7 @@ namespace API.TechsysLog.Repositories.Interfaces
     {
         void Add(Order order, int UserId);
         List<Order> Get(int PageNumber, int pageQuantity);
+        Order GetById(long orderId);
         List<Order> GetByUserId(int pageNumber, int pageQuantity, int userId);
     }
 }
