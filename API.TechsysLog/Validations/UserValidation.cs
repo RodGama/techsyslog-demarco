@@ -9,8 +9,9 @@ namespace API.TechsysLog.Validations
         public UserValidation() 
         {
             RuleLevelCascadeMode = CascadeMode.Continue;
-            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email Inválido");
+            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email inválido");
             RuleFor(x => x.Name).MaximumLength(20).WithMessage("Nome com mais de 20 caracteres");
+            RuleFor(x => x.Password).Equal(x => x.PasswordConfirm).WithMessage("Senhas não coincidem");
             RuleFor(x => x.Password).Equal(x => x.PasswordConfirm).WithMessage("Senhas não coincidem");
         }
     }

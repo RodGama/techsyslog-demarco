@@ -7,44 +7,42 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.TechsysLog.Controllers
 {
     [ApiController]
-    [Route("api/v1/user")]
-    public class UserController : ControllerBase
+    [Route("api/v1/order")]
+    public class OrderController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly ILogger<UserController> _logger;
-        public UserController(IUserService userService, ILogger<UserController> logger)
+        private readonly IOrderService _orderService;
+        private readonly ILogger<OrderController> _logger;
+        public OrderController(IOrderService orderService, ILogger<OrderController> logger)
         {
-            _userService = userService;
+            _orderService = orderService;
             _logger = logger;
         }
 
 
         [Authorize]
-        [HttpPut(Name = "AdicionarUsuario")]
-        [EndpointName("AdicionarUsuario")]
+        [HttpPut(Name = "AdicionarPedido")]
+        [EndpointName("AdicionarPedido")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
-        public IActionResult Add(UserViewModel userViewModel)
+        public IActionResult Add(OrderViewModel orderViewModel)
         {
-            _logger.Log(LogLevel.Trace, "Start");
-
+            _logger.Log(LogLevel.Trace,"Start");
             var result = new Result();
-            result.Endpoint = "AdicionarUsuario";
+            result.Endpoint = "AdicionarPedido";
             result.Success = false;
             result.Errors = new List<string>();
 
-            if (_userService.UserCreationIsValid(userViewModel, result))
+            if (_orderService.OrderCreationIsValid(orderViewModel, result))
             {
                 try
                 {
-                    _userService.Add(userViewModel);
+                    _orderService.Add(orderViewModel);
                     return Ok(result);
                 }
                 catch (Exception ex) 
                 {
-                    throw ex;
-                    //return BadRequest("Não foi possível realizar o cadastro");
+                    return BadRequest("Não foi possível realizar o cadastro");
                 }
             }
             else

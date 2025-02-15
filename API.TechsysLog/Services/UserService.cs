@@ -2,7 +2,6 @@
 using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.Validations;
-using API.TechsysLog.Validations.Interfaces;
 using API.TechsysLog.ViewModel;
 using FluentValidation;
 using static System.Runtime.InteropServices.JavaScript.JSType;

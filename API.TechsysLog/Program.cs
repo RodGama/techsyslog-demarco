@@ -34,11 +34,18 @@ builder.Services.AddOpenApi(options =>
     options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
 
+
+
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 
 builder.Services.AddSingleton<IValidator<UserViewModel>, UserValidation>();
+builder.Services.AddSingleton<IValidator<OrderViewModel>, OrderValidation>();
 
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IOrderService, OrderService>();
+
+
 
 var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("ASPNETCORE_AUTO_RELOAD_WS_KEY"));
 
@@ -65,6 +72,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/error-development");
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
@@ -73,7 +81,10 @@ if (app.Environment.IsDevelopment())
         .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
     });
 }
-
+else
+{
+    app.UseExceptionHandler("/error");
+}
 //app.UseHttpsRedirection();
 
     
