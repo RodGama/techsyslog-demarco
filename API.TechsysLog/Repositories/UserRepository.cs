@@ -2,6 +2,7 @@
 using API.TechsysLog.Domain;
 using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
+using System.Text;
 
 namespace API.TechsysLog.Repositories
 {
@@ -21,6 +22,11 @@ namespace API.TechsysLog.Repositories
                         .Skip(PageNumber * pageQuantity)
                         .Take(pageQuantity)
                         ];
+        }
+
+        public User GetUserByEmailAndPassword(string email, string password)
+        {
+            return _context.Users.Where(x=>x.Email==email).FirstOrDefault();
         }
     }
 }

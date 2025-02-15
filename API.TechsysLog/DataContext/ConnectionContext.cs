@@ -10,10 +10,11 @@ namespace API.TechsysLog.DataContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlServer(
-                "Server=localhost;" +
+                "Server=localhost,1433;" +
                 "Database=techsyslog;" +
                 "User Id=sa;" +
-                "Password=Abc1023123;");
+                "Password=Abc1023123;" +
+                "TrustServerCertificate=True");
         
         
     }

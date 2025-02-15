@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Domain
 {
-    [Table("employee")]
+    [Table("user")]
     public class User
     {
         [Key]
@@ -23,7 +23,6 @@ namespace API.TechsysLog.Domain
         
 
     }
-
     public enum Role
     {
         Employee,

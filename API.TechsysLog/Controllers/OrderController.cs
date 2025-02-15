@@ -1,4 +1,5 @@
-﻿using API.TechsysLog.Repositories.Interfaces;
+﻿using API.TechsysLog.DTOs;
+using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.ViewModel;
 using AutoMapper;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.TechsysLog.Controllers
 {
     [ApiController]
-    [Route("api/v1/order")]
+    [Route("api/v1/[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
@@ -23,8 +24,8 @@ namespace API.TechsysLog.Controllers
 
 
         [Authorize]
-        [HttpPut(Name = "AdicionarPedido")]
-        [EndpointName("AdicionarPedido")]
+        [HttpPut("Add")]
+        [EndpointName("AddOrder")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
@@ -52,6 +53,64 @@ namespace API.TechsysLog.Controllers
             {
                 return BadRequest(result);
             }
+        }
+
+        [Authorize]
+        [HttpGet("GetAll")]
+        [EndpointName("GetAllOrders")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetAll(int PageNumber, int PageQuantity)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "ListarPedidos";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            try
+            {
+                var orders = _orderService.Get(PageNumber, PageQuantity);
+
+                var ordersDTOs = _mapper.Map<OrderDTO>(orders);
+
+                return Ok(ordersDTOs);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+           
+        }
+
+        [Authorize]
+        [HttpGet("GetById/{OrderId}")]
+        [EndpointName("GetOrderById")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetById(int PageNumber, int PageQuantity, long OrderId)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "BuscarPorId";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            try
+            {
+                var orders = _orderService.Get(PageNumber, PageQuantity);
+
+                var ordersDTOs = _mapper.Map<OrderDTO>(orders);
+
+                return Ok(ordersDTOs);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+
         }
     }
 }

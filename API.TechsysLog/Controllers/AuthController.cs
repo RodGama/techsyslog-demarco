@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.TechsysLog.Controllers
 {
     [ApiController]
-    [Route("api/v1/auth")]
+    [Route("api/v1/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -17,21 +17,34 @@ namespace API.TechsysLog.Controllers
             _userService = userService;
         }
 
-        [HttpPost(Name = "Auth")]
+        [HttpPost("Auth")]
         [EndpointName("Auth")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(object))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(AuthResult))]
         public IActionResult Auth([FromBody] AuthViewModel authViewModel)
         {
-            var result = new Result();
-            result.Endpoint = "Auth";
-            result.Success = false;
-            result.Errors = new List<string>();
-            var token = TokenService.GenerateToken(new Domain.User());
-            return Ok(token);
+            var authResult = new AuthResult();
+            try
+            {
+                authResult = _userService.AuthUser(authViewModel);
 
-            return BadRequest(result);
+                if (authResult.IsValid)
+                {
+                    var token = TokenService.GenerateToken(authResult.User);
+                    return Ok(token);
+                }
+                else
+                {
+                    return BadRequest(authResult);
+                }
+
+            }
+            catch
+            {
+                return BadRequest(authResult);
+            }
+
         }
     }
 }

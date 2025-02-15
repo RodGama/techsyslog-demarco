@@ -7,5 +7,6 @@ namespace API.TechsysLog.Repositories.Interfaces
     {
         void Add(User user);
         List<User> Get(int PageNumber, int pageQuantity);
+        User GetUserByEmailAndPassword(string email, string password);
     }
 }

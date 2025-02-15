@@ -11,14 +11,6 @@ namespace API.TechsysLog.Services
     {
         public static object GenerateToken(User user)
         {
-            IDictionary data = Environment.GetEnvironmentVariables();
-
-            // Display the details with key and value 
-            foreach (DictionaryEntry i in data)
-            {
-                Console.WriteLine("{0}:{1}", i.Key, i.Value);
-            }
-
             var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("ASPNETCORE_AUTO_RELOAD_WS_KEY"));
 
             var tokenConfig = new SecurityTokenDescriptor

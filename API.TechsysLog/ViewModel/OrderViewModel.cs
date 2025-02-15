@@ -1,6 +1,6 @@
 ﻿namespace API.TechsysLog.ViewModel
 {
-    public class OrderViewModel
+    public class OrderViewModel 
     {
         public string Description { get; set; }
         public long OrderNumber { get; set; }

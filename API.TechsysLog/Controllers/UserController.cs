@@ -1,14 +1,17 @@
-﻿using API.TechsysLog.Repositories.Interfaces;
+﻿using API.TechsysLog.Domain;
+using API.TechsysLog.DTOs;
+using API.TechsysLog.Repositories.Interfaces;
 using API.TechsysLog.Services.Interfaces;
 using API.TechsysLog.ViewModel;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace API.TechsysLog.Controllers
 {
     [ApiController]
-    [Route("api/v1/user")]
+    [Route("api/v1/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,8 +26,8 @@ namespace API.TechsysLog.Controllers
 
 
         [Authorize]
-        [HttpPut(Name = "AdicionarUsuario")]
-        [EndpointName("AdicionarUsuario")]
+        [HttpPut("Add")]
+        [EndpointName("AddUser")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
@@ -54,6 +57,30 @@ namespace API.TechsysLog.Controllers
             {
                 return BadRequest(result);
             }
+        }
+
+        [Authorize]
+        [HttpGet("GetAll")]
+        [EndpointName("GetAll")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UserDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetAll(int PageNumber, int PageQuantity)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+
+            var result = new Result();
+            result.Endpoint = "ListaUsuarios";
+            result.Success = false;
+            result.Errors = new List<string>();
+            try
+            {
+                var users = _userService.Get(PageNumber, PageQuantity);
+                List<UserDTO> usersDTO = _mapper.Map<List<User>, List<UserDTO>>(users);
+
+                return Ok(usersDTO);
+            }
+            catch(Exception ex) { throw ex; }
         }
     }
 }

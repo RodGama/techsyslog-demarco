@@ -7,6 +7,7 @@ namespace API.TechsysLog.Services.Interfaces
     {
         bool UserCreationIsValid(UserViewModel userViewModel, Result result);
         void Add(UserViewModel userViewModel);
-        List<User> Get();
+        List<User> Get(int PageNumber, int PageQuantity);
+        AuthResult AuthUser(AuthViewModel authViewModel);
     }
 }
