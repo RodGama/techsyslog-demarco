@@ -52,7 +52,9 @@ namespace Web.TechsysLog
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
-            var jwtToken = ticket.UserData;
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+
+            var jwtToken = loginResult.Token;
             var client = new RestClient("https://localhost:7050/api/v1");
 
             var request = new RestRequest($"/Order/GetAllFromUser?PageNumber={PageNumber}&PageQuantity={5}", Method.Get);
@@ -74,7 +76,9 @@ namespace Web.TechsysLog
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
             NameValueCollection form = Request.Form;
 
-            var jwtToken = ticket.UserData;
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+
+            var jwtToken = loginResult.Token;
             var client = new RestClient("https://localhost:7050/api/v1");
 
             var request = new RestRequest($"Order/AddOrderToUser?OrderNumber=" + form["ctl00$MainContent$ordernumber"], Method.Put);

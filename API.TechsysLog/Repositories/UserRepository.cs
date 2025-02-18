@@ -2,6 +2,7 @@
 using API.TechsysLog.Domain;
 using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
+using API.TechsysLog.ViewModel;
 using System.Text;
 
 namespace API.TechsysLog.Repositories
@@ -24,9 +25,20 @@ namespace API.TechsysLog.Repositories
                         ];
         }
 
+        public User GetById(int userId)
+        {
+          return _context.Users.Where(x => x.Id == userId).FirstOrDefault();
+        }
+
         public User GetUserByEmailAndPassword(string email, string password)
         {
             return _context.Users.Where(x=>x.Email==email).FirstOrDefault();
+        }
+
+        public void Update(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
         }
     }
 }

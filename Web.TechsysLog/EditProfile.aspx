@@ -1,98 +1,40 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Dashboard.aspx.cs" Inherits="Web.TechsysLog.Dashboard1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="EditProfile.aspx.cs" Inherits="Web.TechsysLog.EditProfile" %>
+
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main id="main">
 
         <!-- Content-->
         <section class="container-fluid">
-            <div class="row g-12 mb-12">
-                <div class="mb-12">
-                    <div class="card-header justify-content-between align-items-center d-flex">
-                        <h6 class="card-title m-0">Rastrear pedido</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <asp:TextBox runat="server" ID="ordernumber" type="text" class="form-control" placeholder="Número do pedido"></asp:TextBox>
-                        </div>
-                        <asp:Button runat="server" type="submit" Text="Cadastrar" OnClick="RegisterOrder" class="btn btn-primary" />
-                    </div>
-                </div>
-            </div>
-            <div class="row g-12 mb-12">
 
-                <!-- Projects Widget-->
-                <div class="col-6">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Pedidos pendentes</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table m-0 table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Pedido</th>
-                                            <th>Status</th>
-                                            <th>Data</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <asp:Literal ID="OrdersPending" runat="server" />
-                                    </tbody>
-                                </table>
+            <div class="row g-12">
+                <div class="col-12 col-md-12">
+
+                    <div class="card mb-12">
+                        <div class="card card-body">
+
+                            <div class="form-group">
+                                <label class="form-label form-label-light" for="password">Senha</label>
+                                <asp:TextBox ID="oldpassword" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua senha"></asp:TextBox>
                             </div>
-                            <nav>
-                                <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
-                                </ul>
-                            </nav>
+                            <div class="form-group">
+                                <label class="form-label form-label-light" for="password">Nova Senha</label>
+                                <asp:TextBox ID="password" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua nova senha"></asp:TextBox>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label form-label-light" for="passwordc">Confirmação de senha</label>
+                                <asp:TextBox ID="passwordc" runat="server" type="password" class="form-control form-control-light" placeholder="Confirme sua nova senha"></asp:TextBox>
+                            </div>
+                            <asp:Button ID="Button2" Text="Atualizar" runat="server" class="btn btn-primary d-block w-100 my-4" />
                         </div>
                     </div>
-                </div>
-                <div class="col-6">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Pedidos entregues</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table m-0 table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Pedido</th>
-                                            <th>Status</th>
-                                            <th>Data da entrega</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <asp:Literal ID="OrdersDelivered" runat="server" />
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav>
-                                <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+
                 </div>
             </div>
-            <!-- Bottom Row Widgets-->
 
             <!-- Sidebar Menu Overlay-->
             <div class="menu-overlay-bg"></div>
             <!-- / Sidebar Menu Overlay-->
-
 
             <!-- Default Example Offcanvas Import-->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -187,6 +129,7 @@
 
                     <!-- User Details-->
                     <div class="border-bottom pt-3 pb-5 mb-6 d-flex flex-column align-items-center">
+
                         <div class="d-flex flex-wrap mt-2 justify-content-between align-items-center">
 
                             <!-- User profile dropdown-->
@@ -235,5 +178,5 @@
     <!-- Theme JS -->
     <script src="/content/assets/js/theme.bundle.js"></script>
 
-
 </asp:Content>
+

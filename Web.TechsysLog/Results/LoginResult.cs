@@ -9,6 +9,13 @@ namespace Web.TechsysLog.Results
     {
         public string Token { get; set; }
         public bool IsValid { get; set; }
+        public Role Role { get; set; }
         public IList<string> Errors { get; set; }
+    }
+    public enum Role
+    {
+        Employee,
+        Seller,
+        Buyer
     }
 }

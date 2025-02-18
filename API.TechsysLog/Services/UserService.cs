@@ -15,12 +15,14 @@ namespace API.TechsysLog.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IValidator<UserViewModel> _userValidation;
+        private readonly IValidator<UserUpdateViewModel> _userUpdateValidation;
 
 
-        public UserService(IUserRepository userRepository, IValidator<UserViewModel> userValidation)
+        public UserService(IUserRepository userRepository, IValidator<UserViewModel> userValidation, IValidator<UserUpdateViewModel> userUpdateValidation)
         {
             _userRepository = userRepository;
             _userValidation = userValidation;
+            _userUpdateValidation = userUpdateValidation;
         }
         public void Add(UserViewModel userViewModel)
         {
@@ -56,10 +58,33 @@ namespace API.TechsysLog.Services
             return _userRepository.Get(PageNumber, pageQuantity);
         }
 
+        public void Update(UserUpdateViewModel userUpdateViewModel)
+        {
+            var user = _userRepository.GetById(userUpdateViewModel.UserId);
+            user.Password = BCryptor.Encrypt(userUpdateViewModel.Password).ToString();
+            _userRepository.Update(user);
+        }
+
         public bool UserCreationIsValid(UserViewModel userViewModel, Result result)
         {
 
             var resultValidation = _userValidation.Validate(userViewModel);
+            if (!resultValidation.IsValid)
+            {
+                foreach (var error in resultValidation.Errors)
+                {
+                    result.Errors.Add(error.ErrorMessage);
+                }
+
+                return false;
+            }
+            result.Success = true;
+            return true;
+        }
+
+        public bool UserUpdateIsValid(UserUpdateViewModel userUpdateViewModel, Result result)
+        {
+            var resultValidation = _userUpdateValidation.Validate(userUpdateViewModel);
             if (!resultValidation.IsValid)
             {
                 foreach (var error in resultValidation.Errors)

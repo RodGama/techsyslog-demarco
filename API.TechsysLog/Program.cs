@@ -46,6 +46,7 @@ builder.Services.AddTransient<IDeliveryRepository, DeliveryRepository>();
 
 builder.Services.AddSingleton<IValidator<UserViewModel>, UserValidation>();
 builder.Services.AddSingleton<IValidator<OrderViewModel>, OrderValidation>();
+builder.Services.AddSingleton<IValidator<UserUpdateViewModel>, UserUpdateValidation>();
 
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IOrderService, OrderService>();

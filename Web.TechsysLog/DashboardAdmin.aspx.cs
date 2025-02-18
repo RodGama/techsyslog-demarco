@@ -22,6 +22,14 @@ namespace Web.TechsysLog
             {
                 Response.Redirect("Login.aspx");
             }
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+            if (loginResult.Role != Role.Employee)
+            {
+                Response.Redirect("Dashboard.aspx");
+            }
             if (IsPostBack)
             {
                 NameValueCollection form = Request.Form;
@@ -47,7 +55,7 @@ namespace Web.TechsysLog
         protected void RegisterNewUser(object sender, EventArgs e)
         {
             NameValueCollection form = Request.Form;
-            var signUpObj = new SignUpModel(form["fname"], form["email"], form["password"], form["passwordc"], 1);
+            var signUpObj = new SignUpModel(form["fname"], form["email"], form["password"], form["passwordc"], 0);
 
             var client = new RestClient("https://localhost:7050/api/v1/");
             var request = new RestRequest("User/Add", Method.Put);
@@ -58,7 +66,7 @@ namespace Web.TechsysLog
             var body = response.Content.ToString();
             var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
             if (result.Success)
-                Response.Redirect("/Dashboard");
+                Response.Redirect("/Dashboardadmin");
             else
             {
                 Response.Write("<br/>Password: " + result.Errors[0]);
@@ -70,8 +78,9 @@ namespace Web.TechsysLog
             NameValueCollection form = Request.Form;
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
 
-            var jwtToken = ticket.UserData;
+            var jwtToken = loginResult.Token;
             var orderObj = new OrderModel(form["ctl00$MainContent$description"], Int64.Parse(form["ctl00$MainContent$ordernumber"]), float.Parse(form["ctl00$MainContent$price"]), Int32.Parse(form["ctl00$MainContent$cep"].Replace("-","")), Int32.Parse(form["ctl00$MainContent$addressnumber"]), form["ctl00$MainContent$street"], form["ctl00$MainContent$neighborhood"], form["ctl00$MainContent$city"], form["ctl00$MainContent$state"]);
 
             var client = new RestClient("https://localhost:7050/api/v1/");
@@ -97,7 +106,9 @@ namespace Web.TechsysLog
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
             var orderString = form.AllKeys.Where(x => x.StartsWith("SendOrder"));
-            var jwtToken = ticket.UserData;
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+
+            var jwtToken = loginResult.Token;
             var order = Int64.Parse(orderString.First().Replace("SendOrder", ""));
 
 
@@ -108,15 +119,6 @@ namespace Web.TechsysLog
             RestResponse response = client.Execute(request);
             var body = response.Content.ToString();
 
-
-            //var client = new RestClient("https://localhost:7050/api/v1/");
-            //var request = new RestRequest($"Order/DeliverOrder?OrderId="+ order, Method.Get);
-            //request.AddHeader("Content-Type", "application/json");
-            //request.AddHeader("Authorization", $"Bearer {jwtToken}");
-
-            //RestResponse response = client.Execute(request);
-
-            //var body = response.Content.ToString();
             var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
             if (result.Success)
                 Response.Redirect("/Dashboardadmin");
@@ -130,8 +132,9 @@ namespace Web.TechsysLog
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
 
-            var jwtToken = ticket.UserData;
+            var jwtToken = loginResult.Token;
             var client = new RestClient("https://localhost:7050/api/v1");
 
             var request = new RestRequest("Order/GetOrdersToDeliver", Method.Get);

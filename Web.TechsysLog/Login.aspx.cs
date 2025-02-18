@@ -43,7 +43,7 @@ namespace Web.TechsysLog
                            DateTime.Now,    
                            DateTime.Now.AddMinutes(30), 
                            false,
-                           result.Token,          
+                           JsonConvert.SerializeObject(result),          
                            FormsAuthentication.FormsCookiePath
                      );
 
@@ -51,8 +51,10 @@ namespace Web.TechsysLog
 
                     HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
                     Response.Cookies.Add(cookie);
-
+                    if (result.Role == Role.Employee)
+                        Response.Redirect("/Dashboardadmin");
                     Response.Redirect("/Dashboard");
+
                 }
 
                 else

@@ -33,7 +33,9 @@ namespace API.TechsysLog.Controllers
                 if (authResult.IsValid)
                 {
                     var token = TokenService.GenerateToken(authResult.User);
+                    authResult.Role= authResult.User.Role;
                     authResult.User = null;
+
                     authResult.Token = token;
                     return Ok(authResult);
                 }

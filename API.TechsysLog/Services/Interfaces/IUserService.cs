@@ -10,5 +10,7 @@ namespace API.TechsysLog.Services.Interfaces
         void Add(UserViewModel userViewModel);
         List<User> Get(int PageNumber, int PageQuantity);
         AuthResult AuthUser(AuthViewModel authViewModel);
+        bool UserUpdateIsValid(UserUpdateViewModel userUpdateViewModel, Result result);
+        void Update(UserUpdateViewModel userUpdateViewModel);
     }
 }
