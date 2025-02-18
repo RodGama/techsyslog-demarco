@@ -14,7 +14,7 @@
                         <div class="mb-3">
                             <asp:TextBox runat="server" ID="ordernumber" type="text" class="form-control" placeholder="Número do pedido"></asp:TextBox>
                         </div>
-                        <asp:Button runat="server" type="submit" Text="Cadastrar" class="btn btn-primary" />
+                        <asp:Button runat="server" type="submit" Text="Cadastrar" OnClick="RegisterOrder" class="btn btn-primary" />
                     </div>
                 </div>
             </div>

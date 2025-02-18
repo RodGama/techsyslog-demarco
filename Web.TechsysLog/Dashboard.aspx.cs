@@ -23,36 +23,31 @@ namespace Web.TechsysLog
             {
                 Response.Redirect("Login.aspx");
             }
-            if (IsPostBack)
-            {
-                NameValueCollection form = Request.Form;
-                var loginObj = new LoginModel(form["email"], form["password"]);
-            }
-            var ordersPending = GetOrdersPending(0);
-            StringBuilder tableHtml = new StringBuilder();
 
-            foreach (var order in ordersPending)
+            var orders = GetOrders(0);
+            StringBuilder tableHtml = new StringBuilder();
+            StringBuilder tableHtml2 = new StringBuilder();
+            foreach (var order in orders)
             {
-                tableHtml.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
-                tableHtml.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-warning me-2\"></span>In progress</div></td>");
-                tableHtml.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
+                if(order.DeliveryDate == DateTime.MinValue)
+                {
+                    tableHtml.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
+                    tableHtml.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-warning me-2\"></span>In progress</div></td>");
+                    tableHtml.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
+                }
+                else
+                {
+                    tableHtml2.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
+                    tableHtml2.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-success me-2\"></span>Entregue</div></td>");
+                    tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
+                } 
             }
 
             OrdersPending.Text = tableHtml.ToString();
-
-            var ordersDelivered = GetOrdersPending(0);
-            StringBuilder tableHtml2 = new StringBuilder();
-
-            foreach (var order in ordersPending)
-            {
-                tableHtml2.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
-                tableHtml2.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-success me-2\"></span>Entregue</div></td>");
-                tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
-            }
-
             OrdersDelivered.Text = tableHtml2.ToString();
+            
         }
-        protected IList<Order> GetOrdersPending(int PageNumber)
+        protected IList<Order> GetOrders(int PageNumber)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -73,18 +68,19 @@ namespace Web.TechsysLog
             else { return null; }
         }
 
-        protected void RegisterOrder(int orderNumber)
+        protected void RegisterOrder(object sender, EventArgs e)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            NameValueCollection form = Request.Form;
 
             var jwtToken = ticket.UserData;
             var client = new RestClient("https://localhost:7050/api/v1");
 
-            var request = new RestRequest($"/Order/GetAllFromUser?", Method.Get);
+            var request = new RestRequest($"Order/AddOrderToUser?OrderNumber=" + form["ctl00$MainContent$ordernumber"], Method.Put);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-
+            Response.Redirect("/dashboard");
         }
     }
 }

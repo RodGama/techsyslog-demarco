@@ -1,27 +1,100 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="DashboardAdmin.aspx.cs" Inherits="Web.TechsysLog.DashboardAdmin" %>
 
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main id="main">
 
         <!-- Content-->
         <section class="container-fluid">
-            <div class="row g-12 mb-12">
-                <div class="mb-12">
-                    <div class="card-header justify-content-between align-items-center d-flex">
-                        <h6 class="card-title m-0">Rastrear pedido</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <asp:TextBox runat="server" ID="ordernumber" type="text" class="form-control" placeholder="Número do pedido"></asp:TextBox>
+
+            <div class="row g-12">
+                <div class="col-12 col-md-12">
+
+                    <div class="card mb-12">
+                        <div class="card-body">
+                            <p>
+                                <button class="btn btn-primary mb-2" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#register-user" aria-expanded="false" aria-controls="register-user">
+                                    Novo usuário
+                                </button>
+
+                                <button class="btn btn-primary mb-2" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#register-order" aria-expanded="false" aria-controls="register-order">
+                                    Novo pedido
+                                </button>
+                            </p>
+                            <div class="collapse multi-collapse" id="register-user">
+                                <div class="card card-body">
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="fname">Nome completo</label>
+                                        <asp:TextBox ID="TextBox1" runat="server" type="text" class="form-control form-control-light" placeholder="Entre com seu nome"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="email">Email</label>
+                                        <asp:TextBox ID="TextBox2" runat="server" type="email" class="form-control form-control-light" placeholder="name@email.com"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="password">Senha</label>
+                                        <asp:TextBox ID="TextBox3" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua senha"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="passwordc">Confirmação de senha</label>
+                                        <asp:TextBox ID="TextBox4" runat="server" type="password" class="form-control form-control-light" placeholder="Confirme sua senha"></asp:TextBox>
+                                    </div>
+                                    <asp:Button ID="Button2" Text="Registrar usuário" runat="server" OnClick="RegisterNewUser" class="btn btn-primary d-block w-100 my-4" />
+                                </div>
+                            </div>
+
+                            <div class="collapse multi-collapse" id="register-order">
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="description">Descrição do pedido</label>
+                                    <asp:TextBox ID="description" runat="server" type="text" class="form-control form-control-light" placeholder="Descrição"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="cep">Número do pedido</label>
+                                    <asp:TextBox ID="ordernumber" runat="server" type="number" step="0.01" class="form-control form-control-light" placeholder="Número do pedido"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="cep">Preço</label>
+                                    <asp:TextBox ID="price" runat="server" type="number" class="form-control form-control-light" placeholder="Preço"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="cep">CEP</label>
+                                    <asp:TextBox ID="cep" runat="server" type="text" class="form-control form-control-light" placeholder="CEP"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="street">Rua</label>
+                                    <asp:TextBox ID="street" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Endereço"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="addressnumber">Número</label>
+                                    <asp:TextBox ID="addressnumber" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Número"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="addressnumber">Bairro</label>
+                                    <asp:TextBox ID="neighborhood" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Bairro"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="addressnumber">Cidade</label>
+                                    <asp:TextBox ID="city" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Cidade"></asp:TextBox>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label form-label-light" for="addressnumber">Estado</label>
+                                    <asp:TextBox ID="state" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Estado"></asp:TextBox>
+                                </div>
+
+                                <asp:Button ID="Button3" Text="Registrar pedido" OnClick="RegisterOrder" runat="server" class="btn btn-primary d-block w-100 my-4" />
+                            </div>
                         </div>
-                        <asp:Button runat="server" type="submit" Text="Cadastrar" class="btn btn-primary" />
                     </div>
+                    <!-- /Example-->
+
                 </div>
             </div>
-            <div class="row g-12 mb-12">
 
+            <div class="row g-12 mb-12">
                 <!-- Projects Widget-->
-                <div class="col-6">
+                <div class="col-12">
                     <div class="card mb-4 h-100">
                         <div class="card-header justify-content-between align-items-center d-flex">
                             <h6 class="card-title m-0">Pedidos pendentes</h6>
@@ -34,7 +107,7 @@
                                             <th>Pedido</th>
                                             <th>Status</th>
                                             <th>Data</th>
-                                            <th></th>
+                                            <th>Enviar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -54,76 +127,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card mb-4 h-100">
-                        <div class="card-header justify-content-between align-items-center d-flex">
-                            <h6 class="card-title m-0">Pedidos entregues</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table m-0 table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Pedido</th>
-                                            <th>Status</th>
-                                            <th>Data da entrega</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <asp:Literal ID="OrdersDelivered" runat="server" />
-                                    </tbody>
-                                </table>
-                            </div>
-                            <nav>
-                                <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Bottom Row Widgets-->
-
-            <!-- Footer -->
-            <footer class="  footer">
-                <p class="small text-muted m-0">All rights reserved | © 2021</p>
-                <p class="small text-muted m-0">Template created by <a href="https://www.pixelrocket.store/">PixelRocket</a></p>
-            </footer>
-
 
             <!-- Sidebar Menu Overlay-->
             <div class="menu-overlay-bg"></div>
             <!-- / Sidebar Menu Overlay-->
-
-            <!-- Modal Imports-->
-            <!-- Place your modal imports here-->
-
-            <!-- Default Example Modal Import-->
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Here goes modal body content
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Offcanvas Imports-->
-            <!-- Place your offcanvas imports here-->
 
             <!-- Default Example Offcanvas Import-->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -281,7 +290,69 @@
 
     <!-- Theme JS -->
     <script src="/content/assets/js/theme.bundle.js"></script>
+    <script src="https://img.selecoesbrasil.com.br/pag/jquery.inputmask.min.js"></script>
 
+    <script>
+        AdicionarMascaraCep("#MainContent_cep");
+        ImpedirEscrita("#MainContent_street");
+        ImpedirEscrita("#MainContent_neighborhood");
+        ImpedirEscrita("#MainContent_city");
+        ImpedirEscrita("#MainContent_state");
+
+
+        function AdicionarMascaraCep(campo) {
+            $cep = $(campo);
+            if ($cep.length > 0) {
+                $cep.inputmask({
+                    'mask': '99999-999',
+                    'oncomplete': function () {
+                        var valuecep = $('#MainContent_cep').val().replace('-', '');
+                        const options = { method: 'GET' };
+
+                        fetch('https://brasilapi.com.br/api/cep/v2/' + valuecep, options)
+                            .then((response) => {
+                                return response.json().then((data) => {
+                                    populateAddress(data);
+                                }).catch((err) => {
+                                    err => cepNotExists(err)
+                                })
+                            });
+                    }
+                })
+            }
+        }
+
+        function ImpedirEscrita(campo) {
+            $(campo).prop('readonly', true)
+        }
+
+
+        function onSuccess(result) {
+            alert(result);  // The result from the server-side method
+        }
+
+        function onError(error) {
+            alert("Error: " + error);
+        }
+
+        function populateAddress(json) {
+            $("#MainContent_street").val(json.street);
+            $("#MainContent_neighborhood").val(json.neighborhood);
+            $("#MainContent_city").val(json.city);
+            $("#MainContent_state").val(json.state);
+            console.log(json);
+        }
+
+        function cepNotExists(err) {
+
+            console.log(err);
+            window.alert("não existe");
+        }
+
+
+
+
+    </script>
 
 </asp:Content>
 
