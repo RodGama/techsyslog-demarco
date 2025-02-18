@@ -11,34 +11,25 @@ namespace Web.TechsysLog
 {
 
 
-    public partial class Dashboard1
+    public partial class Login
     {
 
         /// <summary>
-        /// Controle ordernumber.
+        /// Controle email.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ordernumber;
+        protected global::System.Web.UI.WebControls.TextBox email;
 
         /// <summary>
-        /// Controle OrdersPending.
+        /// Controle password.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal OrdersPending;
-
-        /// <summary>
-        /// Controle OrdersDelivered.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal OrdersDelivered;
+        protected global::System.Web.UI.WebControls.TextBox password;
     }
 }

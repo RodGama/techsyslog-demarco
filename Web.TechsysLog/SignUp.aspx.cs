@@ -20,6 +20,11 @@ namespace Web.TechsysLog
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("dashboard.aspx");
+            }
+
             if (IsPostBack)
             {
                 NameValueCollection form = Request.Form;
@@ -38,9 +43,7 @@ namespace Web.TechsysLog
                 else
                 {
                     Response.Write("<br/>Password: " + result.Errors[0]);
-                }
-                // Optionally, process the data (validate, authenticate, etc.)
-                
+                }                
             }
         }
     }

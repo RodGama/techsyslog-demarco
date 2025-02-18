@@ -10,7 +10,7 @@ namespace API.TechsysLog.Services
 {
     public class TokenService
     {
-        public static object GenerateToken(User user)
+        public static string GenerateToken(User user)
         {
             var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("ASPNETCORE_AUTO_RELOAD_WS_KEY"));
 
@@ -19,6 +19,7 @@ namespace API.TechsysLog.Services
                 Subject = new ClaimsIdentity(
                 [
                     new Claim("UserId",user.Id.ToString()),
+                    new Claim("Role",user.Role.ToString()),
                 ]),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -28,10 +29,7 @@ namespace API.TechsysLog.Services
             var token = tokenHandler.CreateToken(tokenConfig);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return new
-            {
-                token = tokenString
-            };
+            return tokenString;
         }
 
         public static TokenResult DecryptToken(string token)

@@ -18,6 +18,7 @@ namespace API.TechsysLog.Domain
             Price = price;
             Address = address ?? throw new ArgumentNullException(nameof(address));
             CEP = cEP;
+            CreationDate = DateTime.Now;
         }
 
         [Key]
@@ -27,6 +28,6 @@ namespace API.TechsysLog.Domain
         public float Price { get; private set; }
         public string Address  { get; private set; }
         public int CEP { get; private set; }
-        
+        public DateTime CreationDate { get; set; }
     }
 }

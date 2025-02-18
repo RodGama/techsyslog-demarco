@@ -1,14 +1,10 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="Web.TechsysLog.Site_Mobile" %>
-<%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="friendlyUrls" TagName="ViewSwitcher" %>
+﻿<%@ Page Title="Login" Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Web.TechsysLog.Login" %>
 
 <!DOCTYPE html>
 
 <html lang="pt">
 <head runat="server">
-
-
-
-        
+  
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -69,62 +65,51 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
+        <section class="d-flex justify-content-center align-items-start vh-100 py-5 px-3 px-md-0">
 
-        <!-- Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light border-0 py-0 fixed-top bg-dark-800">
-      <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center flex-grow-1 navbar-actions">
-    
-          <!-- Menu Toggle-->
-          <div class="menu-toggle cursor-pointer me-4 text-primary-hover transition-color disable-child-pointer">
-            <i class="ri-menu-fold-line ri-lg fold align-middle" data-bs-toggle="tooltip" data-bs-placement="right"
-              title="Close menu"></i>
-            <i class="ri-menu-unfold-line ri-lg unfold align-middle" data-bs-toggle="tooltip" data-bs-placement="right"
-              title="Open Menu"></i>
-          </div>
-          <!-- / Menu Toggle-->
-    
-          <!-- Navbar Actions-->
-          <div class="d-flex align-items-center">
-    
-            <!-- Search-->
-            <button class="btn-icon btn-hover-dark btn-search me-2">
-              <i class="ri-search-2-line align-bottom lh-1 text-body"></i>
-            </button>
-    
-            <!-- Search navbar overlay-->
-            <div class="navbar-search d-none">
-              <div class="input-group mb-3 h-100">
-                <span class="input-group-text px-4 bg-transparent"><i class="ri-search-line ri-lg"></i></span>
-                <input type="text" class="form-control text-body bg-transparent border-0" placeholder="Enter your search terms...">
-                <span class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent"><i class="ri-close-circle-line ri-lg text-primary"></i></span>
-              </div>
-            </div>
+    <!-- Login Form-->
+    <div class="d-flex flex-column w-100 align-items-center">
 
-    
-            <!-- Notifications-->
-            <a class="btn-icon btn-hover-dark position-relative p-2 disable-child-pointer" data-bs-toggle="offcanvas" href="#offcanvasNotifications" role="button"
-            aria-controls="offcanvasNotifications">
-              <i class="ri-notification-fill align-bottom text-body lh-1"></i>
-              <span class="badge bg-primary text-white position-absolute top-0 end-0">3</span>
-            </a>
-            <!-- / Notifications-->
-    
+      <!-- Logo-->
+      <a href="./" class="d-table mt-5 mb-4 mx-auto">
+        <div class="d-flex align-items-center justify-content-center">
+            <svg class="f-w-6 me-2 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 398.39 353.81"><polygon points="228.38 33.94 0 262.32 0 0 119.61 0 119.61 43.01 101.9 60.73 86.02 76.61 86.02 33.6 33.6 33.6 33.6 181.2 214.46 0.34 390.66 0.34 242.09 148.91 218.73 124.76 309.55 33.94 228.38 33.94" fill="currentColor"/><polygon points="398.39 353.81 217.51 353.81 131.04 261.75 45.09 353.81 0 353.81 0 353.49 131.26 212.91 232.05 320.21 317.27 320.21 170.28 173.21 194.19 149.29 194.19 149.55 254.9 210.51 254.97 210.39 398.39 353.81" fill="currentColor"/></svg>
+            <span class="fw-bold fs-3 text-white">TechsysLog</span>
+        </div>      </a>
+      <!-- Logo-->
+      
+      <div class="shadow-lg rounded p-4 p-sm-5 bg-white form">
+        <h5 class="fw-bold text-muted">Login</h5>
+        <p class="text-muted">Bem vindo!</p>
+
+        <!-- Login Form-->
+        <div runat="server" class="mt-4">
+          <div class="form-group">
+            <label class="form-label form-label-light" for="login-email">Email</label>
+            <asp:TextBox ID="email" runat="server" type="email" class="form-control form-control-light"  placeholder="name@email.com"></asp:TextBox>
           </div>
-          <!-- / Navbar Actions-->
-        
+          <div class="form-group">
+            <asp:TextBox ID="password" runat="server" type="password" class="form-control form-control-light"  placeholder="Senha"></asp:TextBox>
+          </div>
+          <asp:Button runat="server" type="submit" Text="Login" class="btn btn-primary d-block w-100 my-4"/>
         </div>
+        <!-- / Login Form -->
+
+        <p class="d-block text-center text-muted small">Novo aqui? <a class=" text-decoration-underline"
+            href="./signup">Crie sua conta</a></p>
       </div>
-    </nav>    <!-- / Navbar-->
-        <div class="container body-content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-            <hr />
+    </div>
+    <!-- / Login Form-->
 
-        </div>
+  </section>
+  <!-- / Main Section-->
+
+  <!-- Theme JS -->
+  <!-- Vendor JS -->
+  <script src="./assets/js/vendor.bundle.js"></script>
+  
+  <!-- Theme JS -->
+  <script src="./assets/js/theme.bundle.js"></script>
     </form>
-    <asp:PlaceHolder runat="server">
-        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
-    </asp:PlaceHolder>
 </body>
 </html>

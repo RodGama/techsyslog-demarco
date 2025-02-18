@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Dashboard.aspx.cs" Inherits="Web.TechsysLog.Dashboard1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="DashboardAdmin.aspx.cs" Inherits="Web.TechsysLog.DashboardAdmin" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main id="main">
@@ -284,3 +284,4 @@
 
 
 </asp:Content>
+

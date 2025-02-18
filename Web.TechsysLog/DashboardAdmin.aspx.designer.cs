@@ -11,7 +11,7 @@ namespace Web.TechsysLog
 {
 
 
-    public partial class Dashboard1
+    public partial class DashboardAdmin
     {
 
         /// <summary>
