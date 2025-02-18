@@ -3,6 +3,7 @@ using API.TechsysLog.Domain;
 using API.TechsysLog.DTOs;
 using API.TechsysLog.Models;
 using API.TechsysLog.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace API.TechsysLog.Repositories
@@ -13,7 +14,13 @@ namespace API.TechsysLog.Repositories
         public void Add(Order order, int UserId)
         {
             _context.Orders.Add(order);
-            _context.UserOrders.Add(new UserOrders { OrderNumber = order.OrderNumber, UserId= UserId });
+            
+            _context.SaveChanges();
+        }
+
+        public void AddToUser(int userId, long orderNumber)
+        {
+            _context.UserOrders.Add(new UserOrders { OrderNumber = orderNumber, UserId = userId });
             _context.SaveChanges();
         }
 
@@ -32,14 +39,16 @@ namespace API.TechsysLog.Repositories
 
         public List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId)
         {
-            //!AINDA NÃO BUSQUEI PELO USUARIO
             var ordersList = _context.UserOrders.Where(x => x.UserId == UserId).Select(order => order.OrderNumber).Skip(PageNumber * pageQuantity)
                         .Take(pageQuantity).ToList();
-            var orders = _context.Orders.Where(item => ordersList.Contains(item.OrderNumber)).ToList();
+            var orders = _context.Orders.Where(item => ordersList.Contains(item.OrderNumber)).Include(o => o.Delivery).ToList();
             return orders;
-
-
         }
 
+        public List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity)
+        {
+            var orders = _context.Orders.Where(item => item.Delivery.DeliveryDate == null).ToList();
+            return orders;
+        }
     }
 }

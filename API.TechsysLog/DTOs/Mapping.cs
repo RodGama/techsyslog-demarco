@@ -8,7 +8,7 @@ namespace API.TechsysLog.DTOs
         public Mapping() 
         {
             CreateMap<User, UserDTO>();
-            CreateMap<Order, OrderDTO>();
+            CreateMap<Order, OrderDTO>().ForMember(dest => dest.DeliveryDate, m => m.MapFrom(orig => orig.Delivery.DeliveryDate));
 
         }
     }

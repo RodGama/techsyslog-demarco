@@ -26,8 +26,14 @@ namespace API.TechsysLog.Services
             var address = orderViewModel.CEP + " " + orderViewModel.Street + " " + orderViewModel.AddressNumber + " " + orderViewModel.Neighborhood + " " + orderViewModel.City + " " + orderViewModel.State;
 
             var order = new Order(orderViewModel.Description, orderViewModel.OrderNumber, orderViewModel.Price, address, orderViewModel.CEP);
-
+            order.Delivery = new Delivery();
+            order.Delivery.OrderNumber = orderViewModel.OrderNumber;
             _orderRepository.Add(order, UserId);
+        }
+
+        public void AddToUser(long orderNumber, int userId)
+        {
+            _orderRepository.AddToUser(userId, orderNumber);
         }
 
         public List<Order> Get(int PageNumber, int pageQuantity)
@@ -43,6 +49,11 @@ namespace API.TechsysLog.Services
         public List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId)
         {
             return _orderRepository.GetByUserId(PageNumber, pageQuantity, UserId);
+        }
+
+        public List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity)
+        {
+            return _orderRepository.GetOrdersToDeliver(pageNumber, pageQuantity);
         }
 
         public async Task<bool> OrderCreationIsValid(OrderViewModel orderViewModel, Result result)

@@ -68,6 +68,47 @@ namespace API.TechsysLog.Controllers
                 return BadRequest(result);
         }
 
+
+        [Authorize]
+        [HttpPut("AddOrderToUser")]
+        [EndpointName("AddOrderToUser")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public async Task<IActionResult> AddOrderToUser(long OrderNumber)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "AddOrderToUser";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+
+            var tokenResult = new TokenResult();
+            if (Request.Headers.TryGetValue("Authorization", out StringValues authHeader))
+            {
+                var token = authHeader.ToString().Replace("Bearer ", string.Empty);
+                tokenResult = TokenService.DecryptToken(token);
+            }
+
+            if (_orderService.GetById(OrderNumber) != null)
+            {
+                try
+                {
+                    _orderService.AddToUser(OrderNumber, tokenResult.UserId);
+                    result.Success = true;
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Não foi possível realizar o cadastro");
+                }
+            }
+            else
+                return BadRequest(result);
+        }
+
+
         [Authorize]
         [HttpGet("GetAll")]
         [EndpointName("GetAllOrders")]
@@ -95,6 +136,35 @@ namespace API.TechsysLog.Controllers
                 return BadRequest(result);
             }
            
+        }
+
+        [Authorize]
+        [HttpGet("GetOrdersToDeliver")]
+        [EndpointName("GetOrdersToDeliver")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetOrdersToDeliver(int PageNumber, int PageQuantity)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "GetOrdersToDeliver";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            try
+            {
+                var orders = _orderService.GetOrdersToDeliver(PageNumber, PageQuantity);
+
+                List<OrderDTO> ordersDTOs = _mapper.Map<List<Order>, List<OrderDTO>>(orders);
+
+                return Ok(ordersDTOs);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+
         }
 
         [Authorize]

@@ -6,6 +6,6 @@
         public long OrderNumber { get; set; }
         public string Address { get; set; }
         public DateTime CreationDate { get; set; }
-        //public DateTime Delivery { get; set; }
+        public DateTime DeliveryDate { get; set; }
     }
 }

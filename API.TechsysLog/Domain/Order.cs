@@ -29,5 +29,6 @@ namespace API.TechsysLog.Domain
         public string Address  { get; private set; }
         public int CEP { get; private set; }
         public DateTime CreationDate { get; set; }
+        public Delivery Delivery { get; set; }
     }
 }

@@ -12,5 +12,7 @@ namespace API.TechsysLog.Services.Interfaces
         List<Order> Get(int PageNumber, int pageQuantity);
         List<Order> GetByUserId(int PageNumber, int pageQuantity, int UserId);
         Order GetById(long orderId);
+        void AddToUser(long orderNumber, int userId);
+        List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity);
     }
 }
