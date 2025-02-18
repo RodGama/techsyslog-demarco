@@ -89,41 +89,10 @@
             </div>
             <!-- Bottom Row Widgets-->
 
-            <!-- Footer -->
-            <footer class="  footer">
-                <p class="small text-muted m-0">All rights reserved | © 2021</p>
-                <p class="small text-muted m-0">Template created by <a href="https://www.pixelrocket.store/">PixelRocket</a></p>
-            </footer>
-
-
             <!-- Sidebar Menu Overlay-->
             <div class="menu-overlay-bg"></div>
             <!-- / Sidebar Menu Overlay-->
 
-            <!-- Modal Imports-->
-            <!-- Place your modal imports here-->
-
-            <!-- Default Example Modal Import-->
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Here goes modal body content
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Offcanvas Imports-->
-            <!-- Place your offcanvas imports here-->
 
             <!-- Default Example Offcanvas Import-->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -210,7 +179,7 @@
                                     <polygon points="228.38 33.94 0 262.32 0 0 119.61 0 119.61 43.01 101.9 60.73 86.02 76.61 86.02 33.6 33.6 33.6 33.6 181.2 214.46 0.34 390.66 0.34 242.09 148.91 218.73 124.76 309.55 33.94 228.38 33.94" fill="currentColor" />
                                     <polygon points="398.39 353.81 217.51 353.81 131.04 261.75 45.09 353.81 0 353.81 0 353.49 131.26 212.91 232.05 320.21 317.27 320.21 170.28 173.21 194.19 149.29 194.19 149.55 254.9 210.51 254.97 210.39 398.39 353.81" fill="currentColor" />
                                 </svg>
-                                <span class="fw-bold fs-3 text-white">Kavlan</span>
+                                <span class="fw-bold fs-3 text-white">TechsysLog</span>
                             </div>
                         </a>
                     </div>
@@ -218,19 +187,7 @@
 
                     <!-- User Details-->
                     <div class="border-bottom pt-3 pb-5 mb-6 d-flex flex-column align-items-center">
-                        <div class="position-relative">
-                            <picture class="avatar avatar-profile">
-                                <img class="avatar-profile-img" src="~/content/assets/images/profile-small.jpeg"
-                                    alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                            </picture>
-                            <span class="dot bg-success avatar-dot"></span>
-                        </div>
-                        <p class="mb-0 mt-3 text-white">Robert Jones</p>
-                        <small>robert.jones@outlook.com</small>
                         <div class="d-flex flex-wrap mt-2 justify-content-between align-items-center">
-                            <div class="py-2 f-h-9 px-3 d-flex justify-content-center align-items-center bg-dark-opacity rounded p-2 small fw-bolder me-1">
-                                <i class="ri-map-pin-line me-2"></i>London, UK
-                            </div>
 
                             <!-- User profile dropdown-->
                             <div class="dropdown m-0">
@@ -241,14 +198,10 @@
                                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                                     <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="ri-user-line me-2"></i>Edit
                                       profile</a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="ri-settings-2-line me-2"></i>Edit
-                                      settings</a></li>
-                                    <li><a class="dropdown-item d-flex align-items-center" href="#"><i class="ri-mail-open-line me-2"></i>View
-                                      messages</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item text-danger d-flex align-items-center" href="#"><i
+                                    <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><i
                                         class="ri-lock-line me-2"></i>Logout</a></li>
                                 </ul>
                             </div>

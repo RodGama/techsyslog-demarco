@@ -90,22 +90,12 @@
             <button class="btn-icon btn-hover-dark btn-search me-2">
               <i class="ri-search-2-line align-bottom lh-1 text-body"></i>
             </button>
-    
-            <!-- Search navbar overlay-->
-            <div class="navbar-search d-none">
-              <div class="input-group mb-3 h-100">
-                <span class="input-group-text px-4 bg-transparent"><i class="ri-search-line ri-lg"></i></span>
-                <input type="text" class="form-control text-body bg-transparent border-0" placeholder="Enter your search terms...">
-                <span class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent"><i class="ri-close-circle-line ri-lg text-primary"></i></span>
-              </div>
-            </div>
-
-    
+        
             <!-- Notifications-->
             <a class="btn-icon btn-hover-dark position-relative p-2 disable-child-pointer" data-bs-toggle="offcanvas" href="#offcanvasNotifications" role="button"
             aria-controls="offcanvasNotifications">
               <i class="ri-notification-fill align-bottom text-body lh-1"></i>
-              <span class="badge bg-primary text-white position-absolute top-0 end-0">3</span>
+              <span class="badge bg-primary text-white position-absolute top-0 end-0"></span>
             </a>
             <!-- / Notifications-->
     
