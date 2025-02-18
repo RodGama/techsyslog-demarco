@@ -47,7 +47,7 @@ namespace API.TechsysLog.Repositories
 
         public List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity)
         {
-            var orders = _context.Orders.Where(item => item.Delivery.DeliveryDate == null).ToList();
+            var orders = _context.Orders.Where(item => item.Delivery.DeliveryDate == DateTime.MinValue).ToList();
             return orders;
         }
     }

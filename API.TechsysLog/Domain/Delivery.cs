@@ -18,6 +18,6 @@ namespace API.TechsysLog.Domain
         public int Id { get; private set; }
         [ForeignKey(nameof(Order.OrderNumber))]
         public long OrderNumber { get; set; }
-        public DateTime? DeliveryDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
     }
 }

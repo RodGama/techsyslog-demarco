@@ -205,7 +205,7 @@ namespace API.TechsysLog.Controllers
         {
             _logger.Log(LogLevel.Trace, "Start");
             var result = new Result();
-            result.Endpoint = "BuscarPorId";
+            result.Endpoint = "GetAllFromUser";
             result.Success = false;
             result.Errors = new List<string>();
 

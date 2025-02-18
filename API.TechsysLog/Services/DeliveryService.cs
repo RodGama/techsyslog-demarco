@@ -20,10 +20,10 @@ namespace API.TechsysLog.Services
             _deliveryRepository = deliveryRepository;
         }
 
-        public void Add(long orderId, DateTime? DateDelivery)
+        public void Add(long orderId, DateTime DateDelivery)
         {
             var delivery = new Delivery { OrderNumber = orderId };
-            if (DateDelivery != null) delivery.DeliveryDate = DateDelivery;
+            if (DateDelivery == DateTime.MinValue) delivery.DeliveryDate = DateDelivery;
             _deliveryRepository.Add(delivery);
         }
         public Delivery GetById(long orderId)
