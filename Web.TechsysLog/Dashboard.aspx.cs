@@ -26,6 +26,10 @@ namespace Web.TechsysLog
             {
                 Response.Redirect("Login.aspx");
             }
+            if (IsPostBack && !String.IsNullOrEmpty(Request.Form["ctl00$MainContent$ordernumber"].ToString()))
+            {
+                RegisterOrder(sender, e);
+            }
 
             _orders = GetOrders(0);
             _notifications = GetNotifications();
