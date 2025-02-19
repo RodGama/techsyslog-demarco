@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Domain
 {
-    [Table("user")]
+    [Table("User")]
     public class User
     {
         [Key]

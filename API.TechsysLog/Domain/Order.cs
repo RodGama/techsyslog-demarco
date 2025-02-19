@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Domain
 {
-    [Table("order")]
+    [Table("Order")]
     [Index(nameof(OrderNumber))]
 
     public class Order

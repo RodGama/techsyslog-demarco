@@ -1,4 +1,5 @@
 using API.TechsysLog;
+using API.TechsysLog.DataContext;
 using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories;
 using API.TechsysLog.Repositories.Interfaces;
@@ -10,6 +11,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
@@ -37,8 +39,6 @@ builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
-
-
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
@@ -109,6 +109,7 @@ app.UseHealthChecks("/status",
         }
     });
 
+AdminSeeder.SeedData(app);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Domain
 {
-    [Table("notification")]
+    [Table("Notification")]
     public class Notification
     {
         public Notification(int deliveryId, DateTime notifiedDate)

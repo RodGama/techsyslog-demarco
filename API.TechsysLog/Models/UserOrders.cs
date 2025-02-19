@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.TechsysLog.Models
 {
-    [Table("user_order")]
+    [Table("User_order")]
     [Index(nameof(OrderNumber), nameof(UserId))]
     public class UserOrders
     {

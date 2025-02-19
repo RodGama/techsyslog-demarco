@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.TechsysLog.Migrations
 {
     [DbContext(typeof(ConnectionContext))]
-    [Migration("20250218180743_miasda2")]
-    partial class miasda2
+    [Migration("20250219204927_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,7 @@ namespace API.TechsysLog.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeliveryDate")
+                    b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<long>("OrderNumber")
@@ -43,7 +43,32 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber");
 
-                    b.ToTable("delivery");
+                    b.ToTable("Delivery", (string)null);
+                });
+
+            modelBuilder.Entity("API.TechsysLog.Domain.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DeliveryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("NotifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReadDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryId")
+                        .IsUnique();
+
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.Order", b =>
@@ -64,7 +89,7 @@ namespace API.TechsysLog.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeliveryId")
+                    b.Property<int?>("DeliveryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -83,7 +108,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber");
 
-                    b.ToTable("order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.User", b =>
@@ -111,7 +136,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Models.UserOrders", b =>
@@ -132,18 +157,30 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber", "UserId");
 
-                    b.ToTable("user_order");
+                    b.ToTable("User_order", (string)null);
+                });
+
+            modelBuilder.Entity("API.TechsysLog.Domain.Notification", b =>
+                {
+                    b.HasOne("API.TechsysLog.Domain.Delivery", null)
+                        .WithOne("Notification")
+                        .HasForeignKey("API.TechsysLog.Domain.Notification", "DeliveryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.Order", b =>
                 {
                     b.HasOne("API.TechsysLog.Domain.Delivery", "Delivery")
                         .WithMany()
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryId");
 
                     b.Navigation("Delivery");
+                });
+
+            modelBuilder.Entity("API.TechsysLog.Domain.Delivery", b =>
+                {
+                    b.Navigation("Notification");
                 });
 #pragma warning restore 612, 618
         }

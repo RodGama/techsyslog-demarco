@@ -40,7 +40,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber");
 
-                    b.ToTable("delivery");
+                    b.ToTable("Delivery", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.Notification", b =>
@@ -65,7 +65,7 @@ namespace API.TechsysLog.Migrations
                     b.HasIndex("DeliveryId")
                         .IsUnique();
 
-                    b.ToTable("notification");
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.Order", b =>
@@ -105,7 +105,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber");
 
-                    b.ToTable("order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.User", b =>
@@ -133,7 +133,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Models.UserOrders", b =>
@@ -154,7 +154,7 @@ namespace API.TechsysLog.Migrations
 
                     b.HasIndex("OrderNumber", "UserId");
 
-                    b.ToTable("user_order");
+                    b.ToTable("User_order", (string)null);
                 });
 
             modelBuilder.Entity("API.TechsysLog.Domain.Notification", b =>
