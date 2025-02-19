@@ -33,7 +33,7 @@ namespace Web.TechsysLog
             if (IsPostBack)
             {
                 NameValueCollection form = Request.Form;
-                if (form.AllKeys.Any(x=>x.StartsWith("SendOrder")))
+                if (form.AllKeys.Any(x => x.StartsWith("SendOrder")))
                     DeliverOrder(sender, e);
             }
             var ordersPending = OrdersToDeliver();
@@ -63,20 +63,23 @@ namespace Web.TechsysLog
             request.AddParameter("application/json", JsonConvert.SerializeObject(signUpObj), ParameterType.RequestBody);
             RestResponse response = client.Execute(request);
 
-            var body = response.Content.ToString();
-            var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
-            if (result.Success)
-                Response.Redirect("/Dashboardadmin");
-            else
+            var body = response.Content?.ToString();
+            if (body != null)
             {
-                StringBuilder errorHtml = new StringBuilder();
-                errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
-                foreach (var error in result.Errors)
+                var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
+                if (result.Success)
+                    Response.Redirect("/Dashboardadmin");
+                else
                 {
-                    errorHtml.Append(error + "</div></div>");
-                }
+                    StringBuilder errorHtml = new StringBuilder();
+                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                    foreach (var error in result.Errors)
+                    {
+                        errorHtml.Append(error + "</div></div>");
+                    }
 
-                ErrorListUser.Text = errorHtml.ToString();
+                    ErrorListUser.Text = errorHtml.ToString();
+                }
             }
         }
 
@@ -88,7 +91,7 @@ namespace Web.TechsysLog
             var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
 
             var jwtToken = loginResult.Token;
-            var orderObj = new OrderModel(form["ctl00$MainContent$description"], Int64.Parse(form["ctl00$MainContent$ordernumber"]), float.Parse(form["ctl00$MainContent$price"]), Int32.Parse(form["ctl00$MainContent$cep"].Replace("-","")), Int32.Parse(form["ctl00$MainContent$addressnumber"]), form["ctl00$MainContent$street"], form["ctl00$MainContent$neighborhood"], form["ctl00$MainContent$city"], form["ctl00$MainContent$state"]);
+            var orderObj = new OrderModel(form["ctl00$MainContent$description"], Int64.Parse(form["ctl00$MainContent$ordernumber"]), float.Parse(form["ctl00$MainContent$price"]), Int32.Parse(form["ctl00$MainContent$cep"].Replace("-", "")), Int32.Parse(form["ctl00$MainContent$addressnumber"]), form["ctl00$MainContent$street"], form["ctl00$MainContent$neighborhood"], form["ctl00$MainContent$city"], form["ctl00$MainContent$state"]);
 
             var client = new RestClient("https://localhost:7050/api/v1/");
             var request = new RestRequest("Order/Add", Method.Put);
@@ -98,20 +101,24 @@ namespace Web.TechsysLog
 
             RestResponse response = client.Execute(request);
 
-            var body = response.Content.ToString();
-            var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
-            if (result.Success)
-                Response.Redirect("/Dashboardadmin");
-            else
+            var body = response.Content?.ToString();
+            if (body != null)
             {
-                StringBuilder errorHtml = new StringBuilder();
-                errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
-                foreach (var error in result.Errors)
-                {
-                    errorHtml.Append(error + "</div></div>");
-                }
 
-                ErrorListOrder.Text = errorHtml.ToString();
+                var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
+                if (result.Success)
+                    Response.Redirect("/Dashboardadmin");
+                else
+                {
+                    StringBuilder errorHtml = new StringBuilder();
+                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                    foreach (var error in result.Errors)
+                    {
+                        errorHtml.Append(error + "</div></div>");
+                    }
+
+                    ErrorListOrder.Text = errorHtml.ToString();
+                }
             }
         }
         public void DeliverOrder(object sender, EventArgs e)
@@ -128,7 +135,7 @@ namespace Web.TechsysLog
 
             var client = new RestClient("https://localhost:7050/api/v1");
 
-            var request = new RestRequest($"Order/DeliverOrder?OrderId="+ order, Method.Get);
+            var request = new RestRequest($"Order/DeliverOrder?OrderId=" + order, Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
         }
@@ -145,8 +152,9 @@ namespace Web.TechsysLog
             var request = new RestRequest("Order/GetOrdersToDeliver", Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-            var body = response.Content.ToString();
-
+            var body = response.Content?.ToString();
+            if (body == null)
+                return null;
             var result = JsonConvert.DeserializeObject<List<Order>>(body);
             if (result != null)
             {

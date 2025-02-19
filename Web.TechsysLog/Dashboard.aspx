@@ -127,12 +127,12 @@
                 <div class="offcanvas-body">
 
                     <!-- Notification-->
-                    <asp:Literal ID="NotificationsUser" runat="server"/>
+                    <asp:Literal ID="NotificationsUser" runat="server" />
                     <!-- / Notification-->
 
 
                     <!-- View all Btn-->
-                    <asp:Button runat="server" class="btn btn-outline-secondary w-100 mt-4" role="button" OnClick="RegisterViewNotification" Text="Marcar como lido"/>
+                    <asp:Button runat="server" class="btn btn-outline-secondary w-100 mt-4" role="button" OnClick="RegisterViewNotification" Text="Marcar como lido" />
                     <!-- / View all btn-->
 
                 </div>
@@ -172,37 +172,22 @@
                     </div>
                     <!-- / Mobile Logo-->
 
-                    <!-- User Details-->
-                    <div class="border-bottom pt-3 pb-5 mb-6 d-flex flex-column align-items-center">
-                        <div class="d-flex flex-wrap mt-2 justify-content-between align-items-center">
-
-                            <!-- User profile dropdown-->
-                            <div class="dropdown m-0">
-                                <button class="border-0 rounded px-2 f-h-9 bg-dark-opacity p-0 text-body" type="button" id="profileDropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-settings-2-line"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                                    <li><a class="dropdown-item d-flex align-items-center" href="/EditProfile"><i class="ri-user-line me-2"></i>Editar
-                                      perfil</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><i
-                                        class="ri-lock-line me-2"></i>Logout</a></li>
-                                </ul>
-                            </div>
-                            <!-- / User profile dropdown-->
-                        </div>
-                    </div>
-                    <!-- User Details-->
-
                     <ul class="list-unstyled mb-6 aside-menu">
 
                         <!-- Dashboard Menu Section-->
                         <li class="menu-section">Menu</li>
                         <li class="menu-item"><a class="d-flex align-items-center menu-link" href="/dashboard"><i
                             class="ri-home-4-line me-3"></i><span>Dashboard</span></a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="/EditProfile"><i class="ri-user-line me-2"></i>Editar
+  perfil</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger d-flex align-items-center" href="/logout"><i
+                            class="ri-lock-line me-2"></i>Logout</a></li>
                         <!-- / Dashboard Menu Section-->
 
 

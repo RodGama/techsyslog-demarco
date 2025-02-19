@@ -21,7 +21,7 @@ namespace Web.TechsysLog
         private List<Order> _orders;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 Response.Redirect("Login.aspx");
@@ -36,44 +36,50 @@ namespace Web.TechsysLog
             StringBuilder tableHtml = new StringBuilder();
             StringBuilder tableHtml2 = new StringBuilder();
             StringBuilder listHtml = new StringBuilder();
-            foreach (var order in _orders)
+            if (_orders != null)
             {
-                if(order.DeliveryDate == DateTime.MinValue)
+                foreach (var order in _orders)
                 {
-                    tableHtml.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
-                    tableHtml.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-warning me-2\"></span>In progress</div></td>");
-                    tableHtml.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
-                }
-                else
-                {
-                    tableHtml2.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
-                    tableHtml2.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-success me-2\"></span>Entregue</div></td>");
-                    tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
-                } 
-            }
-            foreach (var notification in _notifications)
-            {
-                listHtml.Append("<div class=\"d-flex justify-content-start align-items-start p-3 rounded bg-light mb-3\"><div class=\"ms-4\">");
-                listHtml.Append($"<p class=\"fw-bolder mb-1\">Pedido {notification.OrderNumber} Entregue</p>");
-                listHtml.Append($"<p class=\"text-muted small mb-0\">Seu pedido foi entregue em {notification.NotifiedDate.ToShortDateString()} às {notification.NotifiedDate.ToShortTimeString()}</p></div></div>");
-            }
-
-            if (Master != null)
-            {
-                Literal litMessage = (Literal)Master.FindControl("NotificationQuantity");
-                if (litMessage != null)
-                {
-                    litMessage.Text = _notifications.Count.ToString();
+                    if (order.DeliveryDate == DateTime.MinValue)
+                    {
+                        tableHtml.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
+                        tableHtml.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-warning me-2\"></span>In progress</div></td>");
+                        tableHtml.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
+                    }
+                    else
+                    {
+                        tableHtml2.Append("<tr><td class=\"text-white\">" + order.OrderNumber + "</td>");
+                        tableHtml2.Append("<td><div class=\"d-flex align-items-center\"><span class=\"dot dot-xs bg-success me-2\"></span>Entregue</div></td>");
+                        tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
+                    }
                 }
             }
+            if (_notifications != null)
+            {
+                foreach (var notification in _notifications)
+                {
+                    listHtml.Append("<div class=\"d-flex justify-content-start align-items-start p-3 rounded bg-light mb-3\"><div class=\"ms-4\">");
+                    listHtml.Append($"<p class=\"fw-bolder mb-1\">Pedido {notification.OrderNumber} Entregue</p>");
+                    listHtml.Append($"<p class=\"text-muted small mb-0\">Seu pedido foi entregue em {notification.NotifiedDate.ToShortDateString()} às {notification.NotifiedDate.ToShortTimeString()}</p></div></div>");
+                }
 
+                if (Master != null)
+                {
+                    Literal litMessage = (Literal)Master.FindControl("NotificationQuantity");
+                    if (litMessage != null)
+                    {
+                        litMessage.Text = _notifications.Count.ToString();
+                    }
+                }
+            }
             OrdersPending.Text = tableHtml.ToString();
             OrdersDelivered.Text = tableHtml2.ToString();
             NotificationsUser.Text = listHtml.ToString();
-            
+
         }
         protected List<Order> GetOrders(int PageNumber)
         {
+
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
 
@@ -85,8 +91,9 @@ namespace Web.TechsysLog
             var request = new RestRequest($"/Order/GetAllFromUser?PageNumber={PageNumber}&PageQuantity={5}", Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-            var body = response.Content.ToString();
-
+            var body = response.Content?.ToString();
+            if (body == null)
+                return null;
             var result = JsonConvert.DeserializeObject<List<Order>>(body);
             if (result != null)
             {
@@ -109,7 +116,9 @@ namespace Web.TechsysLog
             var request = new RestRequest($"Order/AddOrderToUser?OrderNumber=" + form["ctl00$MainContent$ordernumber"], Method.Put);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-            var body = response.Content.ToString();
+            var body = response.Content?.ToString();
+            if (body == null)
+                return;
             var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
             if (!result.Success)
             {
@@ -123,7 +132,7 @@ namespace Web.TechsysLog
                 ErrorList.Text = errorHtml.ToString();
             }
 
-           
+
             Response.Redirect("/dashboard");
         }
         protected List<Notification> GetNotifications()
@@ -139,7 +148,9 @@ namespace Web.TechsysLog
             var request = new RestRequest("Order/GetNotificationsNotReadFromUser", Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-            var body = response.Content.ToString();
+            var body = response.Content?.ToString();
+            if (body == null)
+                return null;
             var result = JsonConvert.DeserializeObject<List<Notification>>(body);
             if (result != null)
             {

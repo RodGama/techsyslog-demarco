@@ -32,30 +32,33 @@ namespace Web.TechsysLog
                 var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
 
                 var jwtToken = loginResult.Token;
-                var updateObj = new UpdateUserModel(0,form["ctl00$MainContent$oldpassword"], form["ctl00$MainContent$password"], form["ctl00$MainContent$passwordc"]);
+                var updateObj = new UpdateUserModel(0, form["ctl00$MainContent$oldpassword"], form["ctl00$MainContent$password"], form["ctl00$MainContent$passwordc"]);
 
                 var client = new RestClient("https://localhost:7050/api/v1/");
-                var request = new RestRequest("User/UpdateUser",Method.Put);
+                var request = new RestRequest("User/UpdateUser", Method.Put);
                 request.AddHeader("Content-Type", "application/json");
                 request.AddHeader("Authorization", $"Bearer {jwtToken}");
 
-                request.AddParameter("application/json",JsonConvert.SerializeObject(updateObj), ParameterType.RequestBody);
+                request.AddParameter("application/json", JsonConvert.SerializeObject(updateObj), ParameterType.RequestBody);
                 RestResponse response = client.Execute(request);
 
-                var body = response.Content.ToString();
-                var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
-                if (!result.Success)
+                var body = response.Content?.ToString();
+                if (body != null)
                 {
-                    StringBuilder errorHtml = new StringBuilder();
-                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
-                    foreach (var error in result.Errors)
+                    var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
+                    if (!result.Success)
                     {
-                        errorHtml.Append(error + "</div></div>");
-                    }
+                        StringBuilder errorHtml = new StringBuilder();
+                        errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                        foreach (var error in result.Errors)
+                        {
+                            errorHtml.Append(error + "</div></div>");
+                        }
 
-                    ErrorListUser.Text = errorHtml.ToString();
+                        ErrorListUser.Text = errorHtml.ToString();
+                    }
+                    Response.Redirect("/");
                 }
-                Response.Redirect("/");
             }
         }
     }

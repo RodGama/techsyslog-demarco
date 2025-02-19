@@ -34,43 +34,44 @@ namespace Web.TechsysLog
                 request.AddParameter("application/json", JsonConvert.SerializeObject(loginObj), ParameterType.RequestBody);
                 RestResponse response = client.Execute(request);
 
-                var body = response.Content.ToString();
-                var result = JsonConvert.DeserializeObject<LoginResult>(body);
-                if (!string.IsNullOrEmpty(result.Token))
+                var body = response.Content?.ToString();
+                if (body != null)
                 {
-                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
-                           1,               
-                           form["email"],        
-                           DateTime.Now,    
-                           DateTime.Now.AddMinutes(30), 
-                           false,
-                           JsonConvert.SerializeObject(result),          
-                           FormsAuthentication.FormsCookiePath
-                     );
-
-                    string encryptedTicket = FormsAuthentication.Encrypt(ticket);
-
-                    HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                    Response.Cookies.Add(cookie);
-                    if (result.Role == Role.Employee)
-                        Response.Redirect("/Dashboardadmin");
-                    Response.Redirect("/Dashboard");
-
-                }
-
-                else
-                {
-                    StringBuilder errorHtml = new StringBuilder();
-                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
-                    foreach (var error in result.Errors)
+                    var result = JsonConvert.DeserializeObject<LoginResult>(body);
+                    if (!string.IsNullOrEmpty(result.Token))
                     {
-                        errorHtml.Append(error+ "</div></div>");
+                        FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                               1,
+                               form["email"],
+                               DateTime.Now,
+                               DateTime.Now.AddMinutes(30),
+                               false,
+                               JsonConvert.SerializeObject(result),
+                               FormsAuthentication.FormsCookiePath
+                         );
+
+                        string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+                        HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                        Response.Cookies.Add(cookie);
+                        if (result.Role == Role.Employee)
+                            Response.Redirect("/Dashboardadmin");
+                        Response.Redirect("/Dashboard");
+
                     }
 
-                    ErrorList.Text = errorHtml.ToString();
+                    else
+                    {
+                        StringBuilder errorHtml = new StringBuilder();
+                        errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                        foreach (var error in result.Errors)
+                        {
+                            errorHtml.Append(error + "</div></div>");
+                        }
+
+                        ErrorList.Text = errorHtml.ToString();
+                    }
                 }
-
-
             }
         }
     }
