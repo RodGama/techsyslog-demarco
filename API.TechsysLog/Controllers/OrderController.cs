@@ -296,5 +296,38 @@ namespace API.TechsysLog.Controllers
                 return BadRequest(result);
             }
         }
+
+        [Authorize]
+        [HttpPost("NotificationsReadByUser")]
+        [EndpointName("NotificationsReadByUser")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult NotificationsReadByUser(IList<NotificationDTO> Notifications)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "NotificationsReadByUser";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            var tokenResult = new TokenResult();
+            if (Request.Headers.TryGetValue("Authorization", out StringValues authHeader))
+            {
+                var token = authHeader.ToString().Replace("Bearer ", string.Empty);
+                tokenResult = TokenService.DecryptToken(token);
+            }
+
+            try
+            {
+                _deliveryService.NotificationsReadByUser(Notifications);
+
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+        }
     }
 }

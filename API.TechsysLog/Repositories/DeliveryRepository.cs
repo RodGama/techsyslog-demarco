@@ -35,9 +35,20 @@ namespace API.TechsysLog.Repositories
             return _context.Deliveries.Where(item => orders.Contains(item.OrderNumber)).Include(o => o.Notification).ToList();
         }
 
+        public Notification GetNotification(int notificationId)
+        {
+            return _context.Notifications.Where(x => x.Id == notificationId).FirstOrDefault();
+        }
+
         public void Update(Delivery delivery)
         {
             _context.Deliveries.Update(delivery);
+            _context.SaveChanges();
+        }
+
+        public void UpdateNotification(Notification notification)
+        {
+            _context.Notifications.Update(notification);
             _context.SaveChanges();
         }
     }

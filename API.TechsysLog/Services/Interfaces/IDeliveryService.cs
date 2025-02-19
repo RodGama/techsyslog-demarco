@@ -11,5 +11,6 @@ namespace API.TechsysLog.Services.Interfaces
         Delivery GetById(long orderId);
         void OrderDelivered(long orderId);
         IList<Delivery> GetNotificationsNotReadFromUser(long userId);
+        void NotificationsReadByUser(IList<NotificationDTO> notifications);
     }
 }

@@ -131,7 +131,7 @@
 
 
                     <!-- View all Btn-->
-                    <a href="#" class="btn btn-outline-secondary w-100 mt-4" role="button">View all notifications</a>
+                    <asp:Button runat="server" class="btn btn-outline-secondary w-100 mt-4" role="button" OnClick="RegisterViewNotification" Text="Marcar como lido"/>
                     <!-- / View all btn-->
 
                 </div>

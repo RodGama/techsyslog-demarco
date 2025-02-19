@@ -9,6 +9,8 @@ namespace API.TechsysLog.Repositories.Interfaces
         void AddNotification(Notification notification);
         Delivery Get(long OrderId);
         IList<Delivery> GetDeliveriesFromUser(long userId);
+        Notification GetNotification(int notificationId);
         void Update(Delivery delivery);
+        void UpdateNotification(Notification notification);
     }
 }

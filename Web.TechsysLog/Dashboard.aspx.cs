@@ -17,6 +17,8 @@ namespace Web.TechsysLog
 {
     public partial class Dashboard1 : System.Web.UI.Page
     {
+        private List<Notification> _notifications;
+        private List<Order> _orders;
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -25,12 +27,12 @@ namespace Web.TechsysLog
                 Response.Redirect("Login.aspx");
             }
 
-            var orders = GetOrders(0);
-            var notifications = GetNotifications();
+            _orders = GetOrders(0);
+            _notifications = GetNotifications();
             StringBuilder tableHtml = new StringBuilder();
             StringBuilder tableHtml2 = new StringBuilder();
             StringBuilder listHtml = new StringBuilder();
-            foreach (var order in orders)
+            foreach (var order in _orders)
             {
                 if(order.DeliveryDate == DateTime.MinValue)
                 {
@@ -45,7 +47,7 @@ namespace Web.TechsysLog
                     tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
                 } 
             }
-            foreach (var notification in notifications)
+            foreach (var notification in _notifications)
             {
                 listHtml.Append("<div class=\"d-flex justify-content-start align-items-start p-3 rounded bg-light mb-3\"><div class=\"ms-4\">");
                 listHtml.Append($"<p class=\"fw-bolder mb-1\">Pedido {notification.OrderNumber} Entregue</p>");
@@ -57,7 +59,7 @@ namespace Web.TechsysLog
                 Literal litMessage = (Literal)Master.FindControl("NotificationQuantity");
                 if (litMessage != null)
                 {
-                    litMessage.Text = notifications.Count.ToString();
+                    litMessage.Text = _notifications.Count.ToString();
                 }
             }
 
@@ -66,7 +68,7 @@ namespace Web.TechsysLog
             NotificationsUser.Text = listHtml.ToString();
             
         }
-        protected IList<Order> GetOrders(int PageNumber)
+        protected List<Order> GetOrders(int PageNumber)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -105,11 +107,10 @@ namespace Web.TechsysLog
             RestResponse response = client.Execute(request);
             Response.Redirect("/dashboard");
         }
-        protected IList<Notification> GetNotifications()
+        protected List<Notification> GetNotifications()
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
-            NameValueCollection form = Request.Form;
 
             var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
 
@@ -126,6 +127,24 @@ namespace Web.TechsysLog
                 return result;
             }
             else { return null; }
-        }        
+        }
+
+        protected void RegisterViewNotification(object sender, EventArgs e)
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+
+            var jwtToken = loginResult.Token;
+            var client = new RestClient("https://localhost:7050/api/v1");
+
+            var request = new RestRequest("Order/NotificationsReadByUser", Method.Post);
+            request.AddHeader("Authorization", $"Bearer {jwtToken}");
+            request.AddParameter("application/json", JsonConvert.SerializeObject(_notifications), ParameterType.RequestBody);
+
+            RestResponse response = client.Execute(request);
+            Response.Redirect("/dashboard");
+        }
     }
 }
