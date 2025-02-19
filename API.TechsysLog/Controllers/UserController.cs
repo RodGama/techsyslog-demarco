@@ -20,7 +20,7 @@ namespace API.TechsysLog.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
         private readonly IMapper _mapper;
-        public UserController(IUserService userService, ILogger<UserController> logger,IMapper mapper)
+        public UserController(IUserService userService, ILogger<UserController> logger, IMapper mapper)
         {
             _userService = userService;
             _logger = logger;
@@ -49,13 +49,14 @@ namespace API.TechsysLog.Controllers
                     _userService.Add(userViewModel);
                     return Ok(result);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
-                   return BadRequest("Não foi possível realizar o cadastro");
+                    return BadRequest("Não foi possível realizar o cadastro");
                 }
             }
             else
             {
+                result.Errors.Add("Não foi possível realizar essa operação");
                 return BadRequest(result);
             }
         }
@@ -96,6 +97,7 @@ namespace API.TechsysLog.Controllers
             }
             else
             {
+                result.Errors.Add("Não foi possível realizar essa operação");
                 return BadRequest(result);
             }
         }
@@ -121,7 +123,11 @@ namespace API.TechsysLog.Controllers
 
                 return Ok(usersDTO);
             }
-            catch(Exception ex) { throw ex; }
+            catch (Exception ex)
+            {
+                result.Errors.Add("Não foi possível realizar essa operação");
+                return BadRequest(result);
+            }
         }
     }
 }
