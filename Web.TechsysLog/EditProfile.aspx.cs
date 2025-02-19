@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Sockets;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -41,6 +42,20 @@ namespace Web.TechsysLog
                 request.AddParameter("application/json",JsonConvert.SerializeObject(updateObj), ParameterType.RequestBody);
                 RestResponse response = client.Execute(request);
 
+                var body = response.Content.ToString();
+                var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
+                if (!result.Success)
+                {
+                    StringBuilder errorHtml = new StringBuilder();
+                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                    foreach (var error in result.Errors)
+                    {
+                        errorHtml.Append(error + "</div></div>");
+                    }
+
+                    ErrorListUser.Text = errorHtml.ToString();
+                }
+                Response.Redirect("/");
             }
         }
     }

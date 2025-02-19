@@ -105,6 +105,21 @@ namespace Web.TechsysLog
             var request = new RestRequest($"Order/AddOrderToUser?OrderNumber=" + form["ctl00$MainContent$ordernumber"], Method.Put);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
+            var body = response.Content.ToString();
+            var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
+            if (!result.Success)
+            {
+                StringBuilder errorHtml = new StringBuilder();
+                errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                foreach (var error in result.Errors)
+                {
+                    errorHtml.Append(error + "</div></div>");
+                }
+
+                ErrorList.Text = errorHtml.ToString();
+            }
+
+           
             Response.Redirect("/dashboard");
         }
         protected List<Notification> GetNotifications()

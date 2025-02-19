@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Web.TechsysLog.Models;
 using RestSharp;
 using Web.TechsysLog.Results;
+using System.Text;
 
 namespace Web.TechsysLog
 {
@@ -42,7 +43,14 @@ namespace Web.TechsysLog
                    Response.Redirect("/Dashboard");
                 else
                 {
-                    Response.Write("<br/>Password: " + result.Errors[0]);
+                    StringBuilder errorHtml = new StringBuilder();
+                    errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                    foreach (var error in result.Errors)
+                    {
+                        errorHtml.Append(error + "</div></div>");
+                    }
+
+                    ErrorList.Text = errorHtml.ToString();
                 }                
             }
         }

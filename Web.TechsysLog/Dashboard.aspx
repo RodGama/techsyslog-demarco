@@ -11,6 +11,7 @@
                         <h6 class="card-title m-0">Rastrear pedido</h6>
                     </div>
                     <div class="card-body">
+                        <asp:Literal runat="server" ID="ErrorList" />
                         <div class="mb-3">
                             <asp:TextBox runat="server" ID="ordernumber" type="text" class="form-control" placeholder="Número do pedido"></asp:TextBox>
                         </div>

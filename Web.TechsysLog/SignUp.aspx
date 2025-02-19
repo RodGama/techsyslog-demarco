@@ -55,6 +55,7 @@
     <div class="shadow-lg rounded p-4 p-sm-5 bg-white form mb-4">
       <h5 class="fw-bold mb-3 text-muted">Registrar</h5>
       <!-- Register Form-->
+        <asp:Literal runat="server" ID="ErrorList"/>
         <div class="form-group">
           <label class="form-label form-label-light" for="fname">Nome completo</label>
           <asp:TextBox ID="fname" runat="server" type="text" class="form-control form-control-light" placeholder="Entre com seu nome"></asp:TextBox>

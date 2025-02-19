@@ -55,7 +55,7 @@ namespace Web.TechsysLog
         protected void RegisterNewUser(object sender, EventArgs e)
         {
             NameValueCollection form = Request.Form;
-            var signUpObj = new SignUpModel(form["fname"], form["email"], form["password"], form["passwordc"], 0);
+            var signUpObj = new SignUpModel(form["ctl00$MainContent$fname"], form["ctl00$MainContent$email"], form["ctl00$MainContent$password"], form["ctl00$MainContent$passwordc"], 0);
 
             var client = new RestClient("https://localhost:7050/api/v1/");
             var request = new RestRequest("User/Add", Method.Put);
@@ -69,7 +69,14 @@ namespace Web.TechsysLog
                 Response.Redirect("/Dashboardadmin");
             else
             {
-                Response.Write("<br/>Password: " + result.Errors[0]);
+                StringBuilder errorHtml = new StringBuilder();
+                errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                foreach (var error in result.Errors)
+                {
+                    errorHtml.Append(error + "</div></div>");
+                }
+
+                ErrorListUser.Text = errorHtml.ToString();
             }
         }
 
@@ -97,7 +104,14 @@ namespace Web.TechsysLog
                 Response.Redirect("/Dashboardadmin");
             else
             {
-                Response.Write("<br/>Password: " + result.Errors[0]);
+                StringBuilder errorHtml = new StringBuilder();
+                errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
+                foreach (var error in result.Errors)
+                {
+                    errorHtml.Append(error + "</div></div>");
+                }
+
+                ErrorListOrder.Text = errorHtml.ToString();
             }
         }
         public void DeliverOrder(object sender, EventArgs e)
@@ -117,15 +131,6 @@ namespace Web.TechsysLog
             var request = new RestRequest($"Order/DeliverOrder?OrderId="+ order, Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
-            var body = response.Content.ToString();
-
-            var result = JsonConvert.DeserializeObject<ResultTemplate>(body);
-            if (result.Success)
-                Response.Redirect("/Dashboardadmin");
-            else
-            {
-                Response.Write("<br/>Password: " + result.Errors[0]);
-            }
         }
 
         protected IList<Order> OrdersToDeliver()

@@ -25,65 +25,69 @@
                             </p>
                             <div class="collapse multi-collapse" id="register-user">
                                 <div class="card card-body">
+                                    <asp:Literal runat="server" ID="ErrorListUser" />
                                     <div class="form-group">
                                         <label class="form-label form-label-light" for="fname">Nome completo</label>
-                                        <asp:TextBox ID="TextBox1" runat="server" type="text" class="form-control form-control-light" placeholder="Entre com seu nome"></asp:TextBox>
+                                        <asp:TextBox ID="fname" runat="server" type="text" class="form-control form-control-light" placeholder="Entre com seu nome"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label form-label-light" for="email">Email</label>
-                                        <asp:TextBox ID="TextBox2" runat="server" type="email" class="form-control form-control-light" placeholder="name@email.com"></asp:TextBox>
+                                        <asp:TextBox ID="email" runat="server" type="email" class="form-control form-control-light" placeholder="name@email.com"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label form-label-light" for="password">Senha</label>
-                                        <asp:TextBox ID="TextBox3" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua senha"></asp:TextBox>
+                                        <asp:TextBox ID="password" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua senha"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label form-label-light" for="passwordc">Confirmação de senha</label>
-                                        <asp:TextBox ID="TextBox4" runat="server" type="password" class="form-control form-control-light" placeholder="Confirme sua senha"></asp:TextBox>
+                                        <asp:TextBox ID="passwordc" runat="server" type="password" class="form-control form-control-light" placeholder="Confirme sua senha"></asp:TextBox>
                                     </div>
                                     <asp:Button ID="Button2" Text="Registrar usuário" runat="server" OnClick="RegisterNewUser" class="btn btn-primary d-block w-100 my-4" />
                                 </div>
                             </div>
 
                             <div class="collapse multi-collapse" id="register-order">
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="description">Descrição do pedido</label>
-                                    <asp:TextBox ID="description" runat="server" type="text" class="form-control form-control-light" placeholder="Descrição"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="cep">Número do pedido</label>
-                                    <asp:TextBox ID="ordernumber" runat="server" type="number" step="0.01" class="form-control form-control-light" placeholder="Número do pedido"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="cep">Preço</label>
-                                    <asp:TextBox ID="price" runat="server" type="number" class="form-control form-control-light" placeholder="Preço"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="cep">CEP</label>
-                                    <asp:TextBox ID="cep" runat="server" type="text" class="form-control form-control-light" placeholder="CEP"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="street">Rua</label>
-                                    <asp:TextBox ID="street" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Endereço"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="addressnumber">Número</label>
-                                    <asp:TextBox ID="addressnumber" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Número"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="addressnumber">Bairro</label>
-                                    <asp:TextBox ID="neighborhood" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Bairro"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="addressnumber">Cidade</label>
-                                    <asp:TextBox ID="city" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Cidade"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label form-label-light" for="addressnumber">Estado</label>
-                                    <asp:TextBox ID="state" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Estado"></asp:TextBox>
-                                </div>
+                                <div class="card card-body">
+                                    <asp:Literal runat="server" ID="ErrorListOrder" />
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="description">Descrição do pedido</label>
+                                        <asp:TextBox ID="description" runat="server" type="text" class="form-control form-control-light" placeholder="Descrição"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="cep">Número do pedido</label>
+                                        <asp:TextBox ID="ordernumber" runat="server" type="number" step="0.01" class="form-control form-control-light" placeholder="Número do pedido"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="cep">Preço</label>
+                                        <asp:TextBox ID="price" runat="server" type="number" class="form-control form-control-light" placeholder="Preço"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="cep">CEP</label>
+                                        <asp:TextBox ID="cep" runat="server" type="text" class="form-control form-control-light" placeholder="CEP"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="street">Rua</label>
+                                        <asp:TextBox ID="street" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Endereço"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="addressnumber">Número</label>
+                                        <asp:TextBox ID="addressnumber" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Número"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="addressnumber">Bairro</label>
+                                        <asp:TextBox ID="neighborhood" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Bairro"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="addressnumber">Cidade</label>
+                                        <asp:TextBox ID="city" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Cidade"></asp:TextBox>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label form-label-light" for="addressnumber">Estado</label>
+                                        <asp:TextBox ID="state" runat="server" type="text" class="form-control form-control-light" SkinID="teste" placeholder="Estado"></asp:TextBox>
+                                    </div>
 
-                                <asp:Button ID="Button3" Text="Registrar pedido" OnClick="RegisterOrder" runat="server" class="btn btn-primary d-block w-100 my-4" />
+                                    <asp:Button ID="Button3" Text="Registrar pedido" OnClick="RegisterOrder" runat="server" class="btn btn-primary d-block w-100 my-4" />
+                                </div>
                             </div>
                         </div>
                     </div>

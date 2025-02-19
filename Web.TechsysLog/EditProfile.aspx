@@ -12,7 +12,7 @@
 
                     <div class="card mb-12">
                         <div class="card card-body">
-
+                            <asp:Literal runat="server" ID="ErrorListUser" />
                             <div class="form-group">
                                 <label class="form-label form-label-light" for="password">Senha</label>
                                 <asp:TextBox ID="oldpassword" runat="server" type="password" class="form-control form-control-light" placeholder="Digite sua senha"></asp:TextBox>
