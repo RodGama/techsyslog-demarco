@@ -2,6 +2,7 @@
 using API.TechsysLog.Domain;
 using API.TechsysLog.DTOs;
 using API.TechsysLog.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.TechsysLog.Repositories
 {
@@ -15,9 +16,23 @@ namespace API.TechsysLog.Repositories
             _context.SaveChanges();
         }
 
+        public void AddNotification(Notification notification)
+        {
+            _context.Notifications.Add(notification);
+            _context.SaveChanges();
+        }
+
         public Delivery Get(long OrderId)
         {
             return _context.Deliveries.Where(x => x.OrderNumber == OrderId).FirstOrDefault();
+        }
+
+
+        public IList<Delivery> GetDeliveriesFromUser(long userId)
+        {
+            var orders = _context.UserOrders.Where(x => x.UserId == userId).Select(order => order.OrderNumber).ToList();
+
+            return _context.Deliveries.Where(item => orders.Contains(item.OrderNumber)).Include(o => o.Notification).ToList();
         }
 
         public void Update(Delivery delivery)

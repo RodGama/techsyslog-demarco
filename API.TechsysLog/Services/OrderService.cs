@@ -26,8 +26,7 @@ namespace API.TechsysLog.Services
             var address = orderViewModel.CEP + " " + orderViewModel.Street + " " + orderViewModel.AddressNumber + " " + orderViewModel.Neighborhood + " " + orderViewModel.City + " " + orderViewModel.State;
 
             var order = new Order(orderViewModel.Description, orderViewModel.OrderNumber, orderViewModel.Price, address, orderViewModel.CEP);
-            order.Delivery = new Delivery();
-            order.Delivery.OrderNumber = orderViewModel.OrderNumber;
+
             _orderRepository.Add(order, UserId);
         }
 
@@ -71,5 +70,9 @@ namespace API.TechsysLog.Services
             return true;
         }
 
+        public void Update(Order order)
+        {
+            _orderRepository.Update(order);
+        }
     }
 }

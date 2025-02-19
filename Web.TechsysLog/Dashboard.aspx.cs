@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Security;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Web.TechsysLog.Models;
@@ -25,8 +26,10 @@ namespace Web.TechsysLog
             }
 
             var orders = GetOrders(0);
+            var notifications = GetNotifications();
             StringBuilder tableHtml = new StringBuilder();
             StringBuilder tableHtml2 = new StringBuilder();
+            StringBuilder listHtml = new StringBuilder();
             foreach (var order in orders)
             {
                 if(order.DeliveryDate == DateTime.MinValue)
@@ -42,9 +45,25 @@ namespace Web.TechsysLog
                     tableHtml2.Append("<td>" + order.CreationDate.ToShortDateString() + "</td></tr>");
                 } 
             }
+            foreach (var notification in notifications)
+            {
+                listHtml.Append("<div class=\"d-flex justify-content-start align-items-start p-3 rounded bg-light mb-3\"><div class=\"ms-4\">");
+                listHtml.Append($"<p class=\"fw-bolder mb-1\">Pedido {notification.OrderNumber} Entregue</p>");
+                listHtml.Append($"<p class=\"text-muted small mb-0\">Seu pedido foi entregue em {notification.NotifiedDate.ToShortDateString()} às {notification.NotifiedDate.ToShortTimeString()}</p></div></div>");
+            }
+
+            if (Master != null)
+            {
+                Literal litMessage = (Literal)Master.FindControl("NotificationQuantity");
+                if (litMessage != null)
+                {
+                    litMessage.Text = notifications.Count.ToString();
+                }
+            }
 
             OrdersPending.Text = tableHtml.ToString();
             OrdersDelivered.Text = tableHtml2.ToString();
+            NotificationsUser.Text = listHtml.ToString();
             
         }
         protected IList<Order> GetOrders(int PageNumber)
@@ -86,5 +105,27 @@ namespace Web.TechsysLog
             RestResponse response = client.Execute(request);
             Response.Redirect("/dashboard");
         }
+        protected IList<Notification> GetNotifications()
+        {
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            NameValueCollection form = Request.Form;
+
+            var loginResult = JsonConvert.DeserializeObject<LoginResult>(ticket.UserData);
+
+            var jwtToken = loginResult.Token;
+            var client = new RestClient("https://localhost:7050/api/v1");
+
+            var request = new RestRequest("Order/GetNotificationsNotReadFromUser", Method.Get);
+            request.AddHeader("Authorization", $"Bearer {jwtToken}");
+            RestResponse response = client.Execute(request);
+            var body = response.Content.ToString();
+            var result = JsonConvert.DeserializeObject<List<Notification>>(body);
+            if (result != null)
+            {
+                return result;
+            }
+            else { return null; }
+        }        
     }
 }

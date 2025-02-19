@@ -23,7 +23,7 @@ namespace API.TechsysLog.Services
         public void Add(long orderId, DateTime DateDelivery)
         {
             var delivery = new Delivery { OrderNumber = orderId };
-            if (DateDelivery == DateTime.MinValue) delivery.DeliveryDate = DateDelivery;
+            delivery.DeliveryDate = DateDelivery;
             _deliveryRepository.Add(delivery);
         }
         public Delivery GetById(long orderId)
@@ -31,21 +31,21 @@ namespace API.TechsysLog.Services
             return _deliveryRepository.Get(orderId);
         }
 
-        public void Notify(long orderId)
+        public IList<Delivery> GetNotificationsNotReadFromUser(long userId)
         {
-            throw new NotImplementedException();
+            var deliveries = _deliveryRepository.GetDeliveriesFromUser(userId);
+            return deliveries = deliveries.Where(x => x.Notification != null && x.Notification.ReadDate == DateTime.MinValue).ToList();
+        }
+
+        public void Notify(int deliveryId)
+        {
+            var notification = new Notification(deliveryId,DateTime.Now);
+            _deliveryRepository.AddNotification(notification);
         }
 
         public void OrderDelivered(long orderId)
         {
-            var delivery = GetById(orderId);
-            if (delivery != null)
-            {
-                delivery.DeliveryDate = DateTime.Now;
-                _deliveryRepository.Update(delivery);
-            }
-            else
-                Add(orderId, DateTime.Now);
+            Add(orderId, DateTime.Now);
         }
     }
 }

@@ -95,7 +95,7 @@
             <a class="btn-icon btn-hover-dark position-relative p-2 disable-child-pointer" data-bs-toggle="offcanvas" href="#offcanvasNotifications" role="button"
             aria-controls="offcanvasNotifications">
               <i class="ri-notification-fill align-bottom text-body lh-1"></i>
-              <span class="badge bg-primary text-white position-absolute top-0 end-0"></span>
+              <span class="badge bg-primary text-white position-absolute top-0 end-0"><asp:Literal ID="NotificationQuantity" runat="server"/></span>
             </a>
             <!-- / Notifications-->
     

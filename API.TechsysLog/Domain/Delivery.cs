@@ -19,5 +19,6 @@ namespace API.TechsysLog.Domain
         [ForeignKey(nameof(Order.OrderNumber))]
         public long OrderNumber { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public Notification? Notification { get; set; }
     }
 }

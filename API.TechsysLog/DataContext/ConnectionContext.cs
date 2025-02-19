@@ -10,6 +10,8 @@ namespace API.TechsysLog.DataContext
         public DbSet<Order> Orders { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<UserOrders> UserOrders { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlServer(
                 "Server=localhost,1433;" +

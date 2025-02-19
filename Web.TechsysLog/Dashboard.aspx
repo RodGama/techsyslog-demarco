@@ -126,21 +126,7 @@
                 <div class="offcanvas-body">
 
                     <!-- Notification-->
-                    <div class="d-flex justify-content-start align-items-start p-3 rounded bg-light mb-3">
-                        <div class="position-relative mt-1 ">
-                            <picture class="avatar avatar-sm">
-                                <img src="./assets/images/profile-small-2.jpeg"
-                                    alt="HTML Bootstrap Admin Template by Pixel Rocket">
-                            </picture>
-                            <span
-                                class="dot bg-success avatar-dot border-light dot-sm"></span>
-                        </div>
-                        <div class="ms-4">
-                            <p class="fw-bolder mb-1">John Jackson</p>
-                            <p class="text-muted small mb-0">Just sent over regional sales. If you can let me know by the end...</p>
-                            <span class="fs-xs fw-bolder text-muted text-uppercase">5 mins ago</span>
-                        </div>
-                    </div>
+                    <asp:Literal ID="NotificationsUser" runat="server"/>
                     <!-- / Notification-->
 
 

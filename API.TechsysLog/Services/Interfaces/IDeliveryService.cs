@@ -7,8 +7,9 @@ namespace API.TechsysLog.Services.Interfaces
 {
     public interface IDeliveryService
     {
-        void Notify(long orderId);
+        void Notify(int deliveryId);
         Delivery GetById(long orderId);
         void OrderDelivered(long orderId);
+        IList<Delivery> GetNotificationsNotReadFromUser(long userId);
     }
 }

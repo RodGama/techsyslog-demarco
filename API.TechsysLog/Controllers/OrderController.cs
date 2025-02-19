@@ -247,8 +247,49 @@ namespace API.TechsysLog.Controllers
             try
             {
                 _deliveryService.OrderDelivered(OrderId);
+
+                var delivery = _deliveryService.GetById(OrderId);
+                var order = _orderService.GetById(OrderId);
+                order.Delivery = delivery;
+                _orderService.Update(order);
+                _deliveryService.Notify(delivery.Id);
                 result.Success = true;
                 return Ok(result);
+            }
+            catch
+            {
+                return BadRequest(result);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetNotificationsNotReadFromUser")]
+        [EndpointName("GetNotificationsNotReadFromUser")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NotificationDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetNotificationsNotReadFromUser()
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "GetNotificationsNotReadFromUser";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            var tokenResult = new TokenResult();
+            if (Request.Headers.TryGetValue("Authorization", out StringValues authHeader))
+            {
+                var token = authHeader.ToString().Replace("Bearer ", string.Empty);
+                tokenResult = TokenService.DecryptToken(token);
+            }
+
+            try
+            {
+                var deliveries = _deliveryService.GetNotificationsNotReadFromUser(tokenResult.UserId);
+
+                IList<NotificationDTO> notificationsDTO = _mapper.Map<IList<Delivery>, IList<NotificationDTO>>(deliveries);
+
+                return Ok(notificationsDTO);
             }
             catch
             {
