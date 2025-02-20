@@ -66,7 +66,6 @@ namespace API.TechsysLog.Controllers
             }
             else
             {
-                result.Errors.Add("Não foi possível realizar essa operação");
                 return BadRequest(result);
             }
                 
@@ -110,7 +109,6 @@ namespace API.TechsysLog.Controllers
             }
             else
             {
-                result.Errors.Add("Não foi possível realizar essa operação");
                 return BadRequest(result);
             }
                 

@@ -52,8 +52,9 @@ namespace Web.TechsysLog
                         errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
                         foreach (var error in result.Errors)
                         {
-                            errorHtml.Append(error + "</div></div>");
+                            errorHtml.Append(error + "</br>");
                         }
+                        errorHtml.Append("</div></div>");
 
                         ErrorListUser.Text = errorHtml.ToString();
                     }

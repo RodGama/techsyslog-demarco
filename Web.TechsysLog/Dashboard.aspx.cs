@@ -54,7 +54,7 @@ namespace Web.TechsysLog
                     }
                 }
             }
-            if (_notifications != null)
+            if (_notifications != null && _notifications.Count > 0)
             {
                 foreach (var notification in _notifications)
                 {
@@ -88,7 +88,7 @@ namespace Web.TechsysLog
             var jwtToken = loginResult.Token;
             var client = new RestClient("https://localhost:7050/api/v1");
 
-            var request = new RestRequest($"/Order/GetAllFromUser?PageNumber={PageNumber}&PageQuantity={5}", Method.Get);
+            var request = new RestRequest($"/Order/GetAllFromUser?PageNumber={PageNumber}&PageQuantity={10}", Method.Get);
             request.AddHeader("Authorization", $"Bearer {jwtToken}");
             RestResponse response = client.Execute(request);
             var body = response.Content?.ToString();
@@ -126,8 +126,9 @@ namespace Web.TechsysLog
                 errorHtml.Append("<div class=\"alert alert-warning d-flex align-items-center\" role=\"alert\"><svg class=\"bi flex-shrink-0 me-2\" width=\"24\" height=\"24\" role=\"img\" aria-label=\"Warning:\"><use xlink:href=\"#exclamation-triangle-fill\"></use></svg><div>");
                 foreach (var error in result.Errors)
                 {
-                    errorHtml.Append(error + "</div></div>");
+                    errorHtml.Append(error + "</br>");
                 }
+                errorHtml.Append("</div></div>");
 
                 ErrorList.Text = errorHtml.ToString();
             }
