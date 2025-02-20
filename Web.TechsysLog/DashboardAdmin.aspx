@@ -121,11 +121,10 @@
                             </div>
                             <nav>
                                 <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+                                    <asp:HiddenField ID="pageNumber" runat="server" />
+                                    <li class="page-item active"><asp:Button runat="server" OnClick="OrdersToDeliver" class="page-link" CommandArgument="1" text="1" OnClientClick="changePage(1)"/></li>
+                                    <li class="page-item"><asp:Button  runat="server" OnClick="OrdersToDeliver" class="page-link" CommandArgument="2" text="2"  OnClientClick="changePage(2)"/></li>
+                                    <li class="page-item"><asp:Button  runat="server" OnClick="OrdersToDeliver" class="page-link" CommandArgument="3" text="3" OnClientClick="changePage(3)"/></li>
                                 </ul>
                             </nav>
                         </div>
@@ -244,7 +243,9 @@ perfil</a></li>
         function ImpedirEscrita(campo) {
             $(campo).prop('readonly', true)
         }
-
+        function changePage(val) {
+            $("#MainContent_pageNumber").val(val);
+        }
 
         function onSuccess(result) {
             alert(result);  // The result from the server-side method

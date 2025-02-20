@@ -55,6 +55,16 @@ namespace API.TechsysLog.Services
             return _orderRepository.GetOrdersToDeliver(pageNumber, pageQuantity);
         }
 
+        public List<Order> GetPendingByUserId(int pageNumber, int pageQuantity, int userId)
+        {
+            return _orderRepository.GetPendingByUserId(pageNumber, pageQuantity, userId);
+        }
+
+        public List<Order> GetDeliveredByUserId(int pageNumber, int pageQuantity, int userId)
+        {
+            return _orderRepository.GetDeliveredByUserId(pageNumber, pageQuantity, userId);
+        }
+
         public async Task<bool> OrderCreationIsValid(OrderViewModel orderViewModel, Result result)
         {
             var resultValidation = await _orderValidation.ValidateAsync(orderViewModel);

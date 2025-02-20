@@ -10,7 +10,9 @@ namespace API.TechsysLog.Repositories.Interfaces
         List<Order> Get(int PageNumber, int pageQuantity);
         Order GetById(long orderId);
         List<Order> GetByUserId(int pageNumber, int pageQuantity, int userId);
+        List<Order> GetDeliveredByUserId(int pageNumber, int pageQuantity, int userId);
         List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity);
+        List<Order> GetPendingByUserId(int pageNumber, int pageQuantity, int userId);
         void Update(Order order);
     }
 }

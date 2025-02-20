@@ -45,9 +45,26 @@ namespace API.TechsysLog.Repositories
             return orders;
         }
 
+        public List<Order> GetDeliveredByUserId(int pageNumber, int pageQuantity, int userId)
+        {
+            var ordersList = _context.UserOrders.Where(x => x.UserId == userId).Select(order => order.OrderNumber).ToList();
+            var orders = _context.Orders.Where(item => ordersList.Contains(item.OrderNumber)).Where(x=>x.Delivery != null).Skip(pageNumber * pageQuantity)
+                        .Take(pageQuantity).Include(o => o.Delivery).ToList();
+            return orders;
+        }
+
         public List<Order> GetOrdersToDeliver(int pageNumber, int pageQuantity)
         {
-            var orders = _context.Orders.Where(item => item.Delivery == null).ToList();
+            var orders = _context.Orders.Where(item => item.Delivery == null).Skip(pageNumber * pageQuantity)
+                        .Take(pageQuantity).ToList();
+            return orders;
+        }
+
+        public List<Order> GetPendingByUserId(int pageNumber, int pageQuantity, int userId)
+        {
+            var ordersList = _context.UserOrders.Where(x => x.UserId == userId).Select(order => order.OrderNumber).ToList();
+            var orders = _context.Orders.Where(item => ordersList.Contains(item.OrderNumber)).Where(x => x.Delivery == null).Skip(pageNumber * pageQuantity)
+                        .Take(pageQuantity).Include(o => o.Delivery).ToList();
             return orders;
         }
 

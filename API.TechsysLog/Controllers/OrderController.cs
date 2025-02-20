@@ -205,12 +205,48 @@ namespace API.TechsysLog.Controllers
         }
 
         [Authorize]
-        [HttpGet("GetAllFromUser")]
-        [EndpointName("GetAllFromUser")]
+        [HttpGet("GetPendingFromUser")]
+        [EndpointName("GetPendingFromUser")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
         public IActionResult GetAllFromUser(int PageNumber, int PageQuantity)
+        {
+            _logger.Log(LogLevel.Trace, "Start");
+            var result = new Result();
+            result.Endpoint = "GetPendingFromUser";
+            result.Success = false;
+            result.Errors = new List<string>();
+
+            var tokenResult = new TokenResult();
+            if (Request.Headers.TryGetValue("Authorization", out StringValues authHeader))
+            {
+                var token = authHeader.ToString().Replace("Bearer ", string.Empty);
+                tokenResult = TokenService.DecryptToken(token);
+            }
+
+            try
+            {
+                var orders = _orderService.GetPendingByUserId(PageNumber, PageQuantity, tokenResult.UserId);
+
+                List<OrderDTO> ordersDTOs = _mapper.Map<List<Order>, List<OrderDTO>>(orders);
+
+                return Ok(ordersDTOs);
+            }
+            catch
+            {
+                result.Errors.Add("Não foi possível realizar essa operação");
+                return BadRequest(result);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetDeliveredFromUser")]
+        [EndpointName("GetDeliveredFromUser")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Result))]
+        public IActionResult GetDeliveredFromUser(int PageNumber, int PageQuantity)
         {
             _logger.Log(LogLevel.Trace, "Start");
             var result = new Result();
@@ -227,7 +263,7 @@ namespace API.TechsysLog.Controllers
 
             try
             {
-                var orders = _orderService.GetByUserId(PageNumber, PageQuantity, tokenResult.UserId);
+                var orders = _orderService.GetDeliveredByUserId(PageNumber, PageQuantity, tokenResult.UserId);
 
                 List<OrderDTO> ordersDTOs = _mapper.Map<List<Order>, List<OrderDTO>>(orders);
 

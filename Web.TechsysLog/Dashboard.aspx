@@ -45,11 +45,11 @@
                             </div>
                             <nav>
                                 <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+                                    <asp:HiddenField ID="pageNumberPending" runat="server" />
+
+                                    <li class="page-item active"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="1" OnClientClick="changePagePending(1)" text="1"/></li>
+                                    <li class="page-item"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="2" OnClientClick="changePagePending(2)" text="2"/></li>
+                                    <li class="page-item"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="3" OnClientClick="changePagePending(3)" text="3"/></li>
                                 </ul>
                             </nav>
                         </div>
@@ -77,11 +77,11 @@
                             </div>
                             <nav>
                                 <ul class="pagination justify-content-end mt-3 mb-0">
-                                    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+                                                                        <asp:HiddenField ID="pageNumberDelivered" runat="server" />
+
+                                    <li class="page-item active"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="1" OnClientClick="changePageDelivered(1)" text="1"/></li>
+                                    <li class="page-item"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="2" OnClientClick="changePageDelivered(2)" text="2"/></li>
+                                    <li class="page-item"><asp:Button runat="server" OnClick="GetPendingOrders" class="page-link" CommandArgument="3" OnClientClick="changePageDelivered(3)" text="3"/></li>
                                 </ul>
                             </nav>
                         </div>
@@ -184,5 +184,12 @@ perfil</a></li>
     <!-- Theme JS -->
     <script src="/content/assets/js/theme.bundle.js"></script>
 
-
+    <script>
+        function changePageDelivered(val) {
+            $("#MainContent_pageNumber").val(val);
+        }
+        function changePagePending(val) {
+            $("#MainContent_pageNumber").val(val);
+        }
+    </script>
 </asp:Content>
