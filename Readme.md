@@ -1,0 +1,1 @@
+rodar migrations antes de iniciar o projeto 
